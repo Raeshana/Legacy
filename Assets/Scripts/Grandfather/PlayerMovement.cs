@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
+
     [SerializeField] float moveSpeed;
     private float moveDirection;
 
@@ -13,10 +15,13 @@ public class PlayerMovement : MonoBehaviour
 
     private static bool isMoving;
 
+    [SerializeField] ParticleSystem dust;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D> ();
+        sr = GetComponent<SpriteRenderer> ();
         attack = GetComponent<PlayerAttack> ();
         block = GetComponent<PlayerBlock> ();
 
@@ -33,9 +38,18 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection = Input.GetAxis("Horizontal");
         
-        if (moveDirection != 0 && !attack.getIsAttacking() && !block.getIsBlocking())
+        if (moveDirection != 0f && !attack.getIsAttacking() && !block.getIsBlocking())
         {
             rb.velocity = new Vector2(moveSpeed * moveDirection, rb.velocity.y);
+            if (moveDirection < 0f)
+            {
+                sr.flipX = true;
+            }
+            else
+            {
+                sr.flipX = false;
+            }
+            dust.Play();
             isMoving = true;
         }
         else
