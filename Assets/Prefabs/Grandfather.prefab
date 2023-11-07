@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: -6002883043334032544}
   - component: {fileID: 4003484511061354097}
   - component: {fileID: 152346735001907880}
+  - component: {fileID: 8722204719340440524}
+  - component: {fileID: -3898892227365900193}
   m_Layer: 0
   m_Name: Grandfather
   m_TagString: Untagged
@@ -185,4 +187,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9482bfec75d1c4fb23c7625c5b5d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ground: {fileID: 0}
   jumpForce: 6
+--- !u!114 &8722204719340440524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8140237125089227432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c2640f6eee2e8408f8c8412336a413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3898892227365900193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8140237125089227432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd9a857c83f215438daa7a7831a0120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
