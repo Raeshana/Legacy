@@ -9,7 +9,7 @@ using UnityEngine;
 // 3. create a boss health script
 // 4. separate the scripts to make them organized
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -20,6 +20,7 @@ public class EnemyMovement : MonoBehaviour
     public bool EnemyIsMoving = false;
     public bool EnemyIsAttacking = false;
     public bool EnemyIsBlocking = false;
+    public bool EnemyIsEnraged = false;
 
     private float jumpForce; // should it be public? should enemy use the same parameters as player?
     private PlayerMovement pm;

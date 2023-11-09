@@ -27,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
         {
             Debug.Log("Attack");
             isAttacking = true;
+            // I created a EnemyIsAttacked(int damage) function in EnemyHealth.cs. It probably can be used here. -- Cheyu
         }
         else
         {
