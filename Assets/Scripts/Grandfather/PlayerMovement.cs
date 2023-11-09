@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
-    [SerializeField] float moveSpeed;
+    //[SerializeField] float moveSpeed;
+    public float moveSpeed; // want to access this in EnemyController.cs so I changed the field to public
     private float moveDirection;
 
     private PlayerAttack attack;

@@ -6,11 +6,14 @@ using UnityEngine;
 // next step:
 // 1. search for how to make a good combat enemy AI / gameplay strategies in street fighter
 // 2. create an invisible gameObj with BoxCollision to detect whether player is in enemy's attack scope
+// 3. create a boss health script
+// 4. separate the scripts to make them organized
 
 public class EnemyMovement : MonoBehaviour
 {
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
     private SpriteRenderer sr;
+    
 
     public bool EnemyIsAlive = true;
     public bool EnemyIsJumping = false;
@@ -19,11 +22,14 @@ public class EnemyMovement : MonoBehaviour
     public bool EnemyIsBlocking = false;
 
     private float jumpForce; // should it be public? should enemy use the same parameters as player?
-    private float moveSpeed;
-
+    private PlayerMovement pm;
+    private float EnemyMoveSpeed;
     private float moveDirection;
+    public float attackRange;
 
     [SerializeField] ParticleSystem dust;
+
+    GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,10 @@ public class EnemyMovement : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         sr.flipX = true; // assuming that the enemy is facing right by default (x>0),
                          // then it should be flipped as the game start to face left (facing the player)
+        player = GameObject.FindGameObjectWithTag("Player");
+        pm = player.GetComponent<PlayerMovement>();
+
+        EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
 
     }
 
@@ -46,7 +56,7 @@ public class EnemyMovement : MonoBehaviour
     bool EnemyShouldMove()
     {
         // to do
-        return false;
+        return true;
     }
 
     bool EnemyShouldAttack()
@@ -63,9 +73,8 @@ public class EnemyMovement : MonoBehaviour
         return false;
     }
 
-    void EnemyMove()
+    void EnemyFlip()
     {
-        rb.velocity = new Vector2(moveSpeed * moveDirection, rb.velocity.y);
         if (moveDirection < 0f)
         {
             sr.flipX = true; // assuming that the enemy is facing right by default (x>0)
@@ -74,7 +83,24 @@ public class EnemyMovement : MonoBehaviour
         {
             sr.flipX = false;
         }
-        dust.Play();
+    }
+
+    void EnemyMove()
+    {
+        //rb.velocity = new Vector2(EnemyMoveSpeed * moveDirection, rb.velocity.y);
+
+        moveDirection = rb.position.x - player.transform.position.x; // if enemy is on player's right, md > 0
+        EnemyFlip();
+        Vector2 target = new Vector2(player.transform.position.x, rb.position.y); //always moving towards the player
+        Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(newPos);
+
+        if (Vector2.Distance(player.transform.position, rb.position) < attackRange)
+        {
+            EnemyShouldAttack();
+        }
+
+        //dust.Play();
     }
 
     void EnemyAttack()
@@ -94,7 +120,7 @@ public class EnemyMovement : MonoBehaviour
             }
 
             if (EnemyShouldMove() && !EnemyIsJumping
-                && !EnemyIsAttacking && EnemyIsBlocking)
+                && !EnemyIsAttacking && !EnemyIsBlocking)
             {
                 EnemyIsMoving = true;
                 EnemyMove();
@@ -105,7 +131,7 @@ public class EnemyMovement : MonoBehaviour
             }
 
             if (EnemyShouldAttack() && !EnemyIsJumping
-                && !EnemyIsMoving && EnemyIsBlocking)
+                && !EnemyIsMoving && !EnemyIsBlocking)
             {
                 EnemyIsBlocking = true;
                 EnemyAttack();
@@ -116,7 +142,7 @@ public class EnemyMovement : MonoBehaviour
             }
 
             if (EnemyShouldBlock() && !EnemyIsJumping
-                && !EnemyIsMoving && EnemyIsAttacking)
+                && !EnemyIsMoving && !EnemyIsAttacking)
             {
                 EnemyIsBlocking = true;
             }
