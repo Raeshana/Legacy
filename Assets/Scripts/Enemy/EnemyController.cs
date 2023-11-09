@@ -20,13 +20,16 @@ public class EnemyController : MonoBehaviour
     public bool EnemyIsMoving = false;
     public bool EnemyIsAttacking = false;
     public bool EnemyIsBlocking = false;
-    public bool EnemyIsEnraged = false;
+    public bool EnemyIsEnraged = false; // to do
 
     private float jumpForce; // should it be public? should enemy use the same parameters as player?
     private PlayerMovement pm;
+    private PlayerAttack pa;
     private float EnemyMoveSpeed;
     private float moveDirection;
+    private float EnemyWidth;
     public float attackRange;
+    private float distanceBtw;
 
     [SerializeField] ParticleSystem dust;
 
@@ -41,8 +44,11 @@ public class EnemyController : MonoBehaviour
                          // then it should be flipped as the game start to face left (facing the player)
         player = GameObject.FindGameObjectWithTag("Player");
         pm = player.GetComponent<PlayerMovement>();
+        pa = player.GetComponent<PlayerAttack>();
 
         EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
+        EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
+        attackRange = EnemyWidth;
 
     }
 
@@ -57,21 +63,21 @@ public class EnemyController : MonoBehaviour
     bool EnemyShouldMove()
     {
         // to do
-        return true;
+        return distanceBtw > attackRange * 0.5;
     }
 
     bool EnemyShouldAttack()
     {
         // to do
         // if player is within attack scope, and player is not attacking, and is not blocking/about to end blocking
-        return false;
+        return distanceBtw < attackRange;
     }
 
     bool EnemyShouldBlock()
     {
         // to do
         // if enemy is withink player's attack scope, and player is attacking
-        return false;
+        return pa.getIsAttacking();
     }
 
     void EnemyFlip()
@@ -96,12 +102,9 @@ public class EnemyController : MonoBehaviour
         Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPos);
 
-        if (Vector2.Distance(player.transform.position, rb.position) < attackRange)
-        {
-            EnemyShouldAttack();
-        }
+        Debug.Log("should a?");
 
-        //dust.Play();
+        dust.Play();
     }
 
     void EnemyAttack()
@@ -114,14 +117,10 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         if (EnemyIsAlive) {
-            if (EnemyShouldJump() && !EnemyIsMoving
-                && !EnemyIsAttacking && EnemyIsBlocking)
-            {
-                rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
-            }
+            distanceBtw = Vector2.Distance(player.transform.position, rb.position);
 
             if (EnemyShouldMove() && !EnemyIsJumping
-                && !EnemyIsAttacking && !EnemyIsBlocking)
+                && !EnemyIsBlocking) // enemy should be allowed to move while attacking?
             {
                 EnemyIsMoving = true;
                 EnemyMove();
@@ -130,6 +129,13 @@ public class EnemyController : MonoBehaviour
             {
                 EnemyIsMoving = false;
             }
+
+            if (EnemyShouldJump() && !EnemyIsMoving
+                && !EnemyIsAttacking && EnemyIsBlocking)
+            {
+                rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
+            }
+            
 
             if (EnemyShouldAttack() && !EnemyIsJumping
                 && !EnemyIsMoving && !EnemyIsBlocking)

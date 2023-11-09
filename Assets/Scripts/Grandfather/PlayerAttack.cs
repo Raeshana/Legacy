@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerMovement move;
     private PlayerBlock block;
 
-    private static bool isAttacking;
+    public static bool isAttacking; // EnemyController.cs needs this bool so I changed it to public -- Cheyu
 
     // Start is called before the first frame update
     void Start()
