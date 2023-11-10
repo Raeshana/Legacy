@@ -255,8 +255,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 642055bb0755a4c49bf0a4c75314ca80, type: 2}
-  m_sharedMaterial: {fileID: 4051873577519740292, guid: 642055bb0755a4c49bf0a4c75314ca80, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4f5f1d2f0d5cf304c97d9c7a728be300, type: 2}
+  m_sharedMaterial: {fileID: 7315261879752514956, guid: 4f5f1d2f0d5cf304c97d9c7a728be300, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -395,7 +395,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textElement: {fileID: 967898027}
   typingSpeed: 0.01
-  paragraphs: []
+  paragraphs:
+  - "Today was the day King Andrew decided to put his life\u2013 his love\u2013 aside
+    for his people. As his words of banishment fell upon his wife, the sky darkened
+    and the earth rumbled. The world was in protest against his betrayal. Cries of
+    mockery and hatred were aimed at his lover for her wicked magic, but King Andrew
+    knew that she was not the source. A dark premonition prompted him to seal his
+    people in the safety of his Castle and as he stared at the back of his retreating
+    lover\u2019s silhouette, unknown soldiers surrounded the back of the Castle. "
+  - "Even now, in the midst of panic when his people needed him most, King Andrew\u2019s
+    only thought was that if he failed to protect his Kingdom, at least his most
+    precious people would survive. Little did he know that the knight leading the
+    siege was his grandson from the future. "
+  - "As a great battle ensued, King Andrew and King-to-be Andrew 3rd crossed blades.
+    Their skirmish resembled a script; they read each other\u2019s moves like it
+    was their own. After many hours, King Andrew realized that his opponent was not
+    merely gifted\u2013 he was well-trained with the secret techniques of his Kingdom.
+    But how could this be? He had never come across a knight nearly as competent."
+  - "Lost in thought, King Andrew was caught off-guard and skillfully disarmed. With
+    bated breath, he slowly traced the sword pointing at his chest to the hand of
+    its bearer. To his astonishment, a unique crystal orb swirling with skillfully
+    contained magic sat atop his opponent\u2019s middle finger. Of course he recognized
+    it\u2013 it belonged to his lover."
+  - As the sword was raised into the air, the pieces started falling into place.
+    But it was too late. It was too late from the day he banished the person he loved
+    the most. Laughter echoed with the sharp impale of the blade. But it soon died
+    as King-to-be Andrew 3rd felt his body dying along with King Andrew.
+  - "\u201CMy grandson, I am truly sorry.\u201D"
+  - 'King Andrew closed his eyes, wishing that he had chosen his family. And King-to-be
+    Andrew closed his eyes, wishing that he had not chosen revenge. '
   sceneToLoad: MainMenu
 --- !u!1 &1715566880
 GameObject:
