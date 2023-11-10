@@ -53,7 +53,7 @@ public class PlayerAttack : MonoBehaviour
             //Debug.Log("Attack");
             isAttacking = true;
             anim.SetTrigger("canAttack");
-            enemyHealth.EnemyIsAttacked(playerDamage);
+            enemyHealth.EnemyIsAttacked(5);
         }
         else
         {
