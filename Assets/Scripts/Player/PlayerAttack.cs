@@ -10,12 +10,15 @@ public class PlayerAttack : MonoBehaviour
 
     public static bool isAttacking; // EnemyController.cs needs this bool so I changed it to public -- Cheyu
 
+    private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
         jump = GetComponent<PlayerJump> ();
         move = GetComponent<PlayerMovement> ();
         block = GetComponent<PlayerBlock> ();
+        anim = GetComponent<Animator> ();
 
         isAttacking = false;
     }
@@ -27,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
         {
             Debug.Log("Attack");
             isAttacking = true;
+            anim.SetTrigger("canAttack");
             // I created a EnemyIsAttacked(int damage) function in EnemyHealth.cs. It probably can be used here. -- Cheyu
         }
         else
