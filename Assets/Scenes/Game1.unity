@@ -6394,8 +6394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506aeb95081fb4be3a88bee05182051b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  anim: {fileID: 0}
+  player: {fileID: 382876224}
+  anim: {fileID: 1522834405}
   EnemyIsAttacking: 0
   cooling: 0
 --- !u!1 &1618708390
@@ -6914,7 +6914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2407572280524005604, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.78
+      value: -1.73
       objectReference: {fileID: 0}
     - target: {fileID: 2407572280524005604, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_LocalPosition.z
