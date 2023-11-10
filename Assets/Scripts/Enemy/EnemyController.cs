@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     private EnemyHealth hp;
     public Animator anim;
 
+
     public bool EnemyIsAlive = true;
     public bool EnemyIsJumping = false;
     public bool EnemyIsMoving = false;
@@ -43,6 +44,7 @@ public class EnemyController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         hp = GetComponent<EnemyHealth>();
+
         sr.flipX = true; // assuming that the enemy is facing right by default (x>0),
                          // then it should be flipped as the game start to face left (facing the player)
         player = GameObject.FindGameObjectWithTag("Player");
@@ -60,7 +62,10 @@ public class EnemyController : MonoBehaviour
     bool EnemyShouldJump()
     {
         // to do
-        return false;
+        //Debug.Log("--");
+        //Debug.Log(Input.GetKeyDown(KeyCode.L));
+        //Debug.Log(EnemyIsJumping);
+        return Input.GetButtonDown("Jump") && !EnemyIsJumping;
     }
 
     bool EnemyShouldMove()
@@ -138,13 +143,13 @@ public class EnemyController : MonoBehaviour
 
             }
 
-            if (EnemyShouldJump() && !EnemyIsMoving
-                && !EnemyIsAttacking && EnemyIsBlocking)
+            if (EnemyShouldJump() && !EnemyIsAttacking && !EnemyIsBlocking) // allowed to jump while moving
             {
-                rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
+                Debug.Log("is jumping");
+                //rb.velocity = Vector2.up * jumpForce;
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
             
-
             if (EnemyShouldAttack() && !EnemyIsJumping
                 && !EnemyIsMoving && !EnemyIsBlocking)
             {
@@ -176,7 +181,9 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         { // if the obj that player is colliding with has the tag 'ground'
             EnemyIsJumping = false;
-        } else if (other.gameObject.CompareTag("Player")) {
+            anim.SetBool("EnemyIsJumping", false);
+        }
+        if (other.gameObject.CompareTag("Player")) {
             StartCoroutine(FlashRoutine());
             //default damage is 5, maybe change it for normal attack and power attack?
             hp.EnemyIsAttacked(5);
@@ -188,6 +195,7 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             EnemyIsJumping = true;
+            anim.SetBool("EnemyIsJumping", true);
         }
     }
 

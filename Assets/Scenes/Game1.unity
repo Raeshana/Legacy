@@ -6370,7 +6370,7 @@ Animator:
   m_GameObject: {fileID: 1522834393}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f3461551446c44b47ae17a08e864a2b5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6889,7 +6889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2407572280524005604, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.04
+      value: -1.73
       objectReference: {fileID: 0}
     - target: {fileID: 2407572280524005604, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6967,6 +6967,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5003322882987099682, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 1522834405}
     - target: {fileID: 5003322882987099682, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: dust
       value: 
