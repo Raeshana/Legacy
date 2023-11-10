@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HelpBtnOnClick : MonoBehaviour
 {
@@ -14,11 +15,12 @@ public class HelpBtnOnClick : MonoBehaviour
         oldSprite = buttonImage.sprite;
         buttonImage.sprite = newSprite;
         helpPopup.SetActive(true);
-        StartCoroutine(WaitOneSecond(buttonImage));
+        StartCoroutine(WaitOneSecond());
     }
-    IEnumerator WaitOneSecond(Image buttonImage) {
+    IEnumerator WaitOneSecond() {
         // Wait for 1 second
         yield return new WaitForSeconds(0.15f);
+        Image buttonImage = helpButton.GetComponent<Image>();
         buttonImage.sprite = oldSprite;
     }
 }
