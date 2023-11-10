@@ -8,7 +8,7 @@ public class EnemyAttack : MonoBehaviour
     public GameObject player;
     public Animator anim;
 
-    private PlayerAttack pa;
+    private readonly PlayerAttack pa;
     private PlayerBlock pb;
     private PlayerJump pj;
     private PlayerHurt phurt;
@@ -31,10 +31,12 @@ public class EnemyAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("1");
+        //Debug.Log(EnemyShouldAttack());
         if (EnemyShouldAttack() && cooling == 0
-            & !ec.EnemyIsJumping && !ec.EnemyIsMoving && !ec.EnemyIsBlocking)
+            && !ec.EnemyIsJumping && !ec.EnemyIsMoving && !ec.EnemyIsBlocking)
         {
+            Debug.Log("2");
+
             AttackRoutine();
         }
     }
@@ -43,12 +45,19 @@ public class EnemyAttack : MonoBehaviour
     {
         // to do
         // if player is within attack scope, and player is not attacking, and is not blocking/about to end blocking
-        Debug.Log(pb.getIsBlocking());
+        Debug.Log("1");
+        //Debug.Log(pb.getIsBlocking());
+        //Debug.Log(pj.getIsJumping());
+        Debug.Log(pa.getIsAttacking());
+        Debug.Log(ec.horizontalDistanceBtw);
+        Debug.Log(ec.attackRange);
         return !pb.getIsBlocking() && !pj.getIsJumping() && !pa.getIsAttacking() && ec.horizontalDistanceBtw < ec.attackRange;
     }
 
     void AttackRoutine()
     {
+        Debug.Log("3");
+
         EnemyIsAttacking = true;
         anim.SetTrigger("EnemyCanAttack");
         anim.SetBool("EnemyIsAttacking", true);
@@ -61,6 +70,8 @@ public class EnemyAttack : MonoBehaviour
 
     IEnumerator Cooling()
     {
+        Debug.Log("4");
+
         yield return new WaitForSeconds(1);
         cooling = (cooling - 1) % 3;
     }

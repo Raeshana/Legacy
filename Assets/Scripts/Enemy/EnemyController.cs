@@ -62,15 +62,6 @@ public class EnemyController : MonoBehaviour
 
     // Update is called once per frame
 
-    bool EnemyShouldJump()
-    {
-        // to do
-        //Debug.Log("--");
-        //Debug.Log(Input.GetKeyDown(KeyCode.L));
-        //Debug.Log(EnemyIsJumping);
-        return Input.GetButtonDown("Jump") && !EnemyIsJumping;
-    }
-
     bool EnemyShouldMove()
     {
         float distance = Vector2.Distance(rb.position, player.transform.position);
@@ -89,7 +80,7 @@ public class EnemyController : MonoBehaviour
 
     bool EnemyShouldBlock()
     {
-        return horizontalDistanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range - what's player's attack range?
+        return horizontalDistanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range
             && pa.getIsAttacking(); // and player is attacking
     }
 
@@ -133,13 +124,6 @@ public class EnemyController : MonoBehaviour
                 anim.SetBool("EnemyIsMoving", false);
 
             }
-
-            if (EnemyShouldJump() && !ea.EnemyIsAttacking && !EnemyIsBlocking) // allowed to jump while moving
-            {
-                Debug.Log("is jumping");
-                //rb.velocity = Vector2.up * jumpForce;
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            }
            
 
             if (EnemyShouldBlock() && !EnemyIsJumping && !ea.EnemyIsAttacking) // allowed to block while moving
@@ -158,11 +142,11 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Ground"))
-        { // if the obj that player is colliding with has the tag 'ground'
-            EnemyIsJumping = false;
-            anim.SetBool("EnemyIsJumping", false);
-        }
+        //if (other.gameObject.CompareTag("Ground"))
+        //{ // if the obj that player is colliding with has the tag 'ground'
+        //    EnemyIsJumping = false;
+        //    anim.SetBool("EnemyIsJumping", false);
+        //}
         if (other.gameObject.CompareTag("Player")) {
             StartCoroutine(FlashRoutine());
             //default damage is 5, maybe change it for normal attack and power attack?
@@ -170,14 +154,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            EnemyIsJumping = true;
-            anim.SetBool("EnemyIsJumping", true);
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D other)
+    //{
+    //    if (other.gameObject.CompareTag("Ground"))
+    //    {
+    //        EnemyIsJumping = true;
+    //        anim.SetBool("EnemyIsJumping", true);
+    //    }
+    //}
 
     private IEnumerator FlashRoutine() {
         sr.color = Color.black;
