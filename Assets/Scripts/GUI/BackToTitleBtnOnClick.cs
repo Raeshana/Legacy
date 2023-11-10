@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class StartBtnOnClick : MonoBehaviour
-{
-    public Button startButton;
+public class BackToTitleBtnOnClick : MonoBehaviour {
+    public Button backToTitleButton;
     public Sprite newSprite;
     public string sceneToLoad;
     public void LoadScene() {
-        Image buttonImage = startButton.GetComponent<Image>();
+        Image buttonImage = backToTitleButton.GetComponent<Image>();
         buttonImage.sprite = newSprite;
         SceneManager.LoadScene(sceneToLoad);
     }
 }
+

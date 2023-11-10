@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHurt : MonoBehaviour
 {
+    public string sceneToLoad;
     private SpriteRenderer sr;
     private PlayerHealth health;
 
@@ -27,6 +29,10 @@ public class PlayerHurt : MonoBehaviour
             StartCoroutine(FlashRoutine());
             //default damage is 5, maybe change it for normal attack and power attack?
             health.TakeDamage(5);
+            if (health.getHealth() == 0) {
+                PlayerPrefs.SetInt("Win", 0);
+                SceneManager.LoadScene(sceneToLoad);
+            }
         }
     }
 
