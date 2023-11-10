@@ -386,7 +386,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: EnemyIsAttacking
+  - m_Name: EnemyCanAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -394,6 +394,12 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: EnemyIsPowerAttacking
     m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: EnemyIsAttacking
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -524,7 +530,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: EnemyIsAttacking
+    m_ConditionEvent: EnemyCanAttack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2692767023161781448}

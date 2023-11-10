@@ -14,20 +14,19 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private EnemyHealth hp;
+    private EnemyAttack ea;
     public Animator anim;
 
 
     public bool EnemyIsAlive = true;
     public bool EnemyIsJumping = false;
     public bool EnemyIsMoving = false;
-    public bool EnemyIsAttacking = false;
     public bool EnemyIsBlocking = false;
-    public bool EnemyIsEnraged = false; // to do
+
 
     GameObject player;
     private PlayerMovement pm;
     private PlayerAttack pa;
-    private PlayerHurt phurt;
 
     private float jumpForce; // should it be public? should enemy use the same parameters as player?
     private float EnemyMoveSpeed;
@@ -46,6 +45,7 @@ public class EnemyController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         hp = GetComponent<EnemyHealth>();
+        ea = GetComponent<EnemyAttack>();
 
         sr.flipX = true; // assuming that the enemy is facing right by default (x>0),
                          // then it should be flipped as the game start to face left (facing the player)
@@ -53,7 +53,6 @@ public class EnemyController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         pm = player.GetComponent<PlayerMovement>();
         pa = player.GetComponent<PlayerAttack>();
-        phurt = player.GetComponent<PlayerHurt>();
 
         EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
         EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
@@ -63,40 +62,25 @@ public class EnemyController : MonoBehaviour
 
     // Update is called once per frame
 
-    bool EnemyShouldJump()
-    {
-        // to do
-        //Debug.Log("--");
-        //Debug.Log(Input.GetKeyDown(KeyCode.L));
-        //Debug.Log(EnemyIsJumping);
-        return Input.GetButtonDown("Jump") && !EnemyIsJumping;
-    }
-
     bool EnemyShouldMove()
     {
-        return horizontalDistanceBtw >= attackRange * 0.75;
+        float distance = Vector2.Distance(rb.position, player.transform.position);
+        return (horizontalDistanceBtw >= attackRange * 0.75)
+            && (distance >= attackRange * 0.75);
     }
 
-    bool EnemyShouldAttack()
+    void EnemyMove()
     {
-        // to do
-        // if player is within attack scope, and player is not attacking, and is not blocking/about to end blocking
-        return horizontalDistanceBtw < attackRange && !pa.getIsAttacking();
-    }
-
-    IEnumerator AttackRoutine()
-    {
-        Debug.Log("attacking");
-        EnemyIsAttacking = true;
-        anim.SetBool("EnemyIsAttacking", true);
-        EnemyAttack();
-        yield return new WaitForSeconds(1);
-        EnemyIsAttacking = false;
+        EnemyFlip();
+        Vector2 target = new Vector2(player.transform.position.x, rb.position.y); //always moving towards the player
+        Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(newPos);
+        dust.Play();
     }
 
     bool EnemyShouldBlock()
     {
-        return horizontalDistanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range - what's player's attack range?
+        return horizontalDistanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range
             && pa.getIsAttacking(); // and player is attacking
     }
 
@@ -121,25 +105,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void EnemyMove()
-    {
-        EnemyFlip();
-        Vector2 target = new Vector2(player.transform.position.x, rb.position.y); //always moving towards the player
-        Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(newPos);
-        dust.Play();
-    }
-
-    void EnemyAttack()
-    {
-        // to do
-        // if player is withink enemy's attack scope, and player is not blocking, then player's health goes down
-        // make sure that player's health only decreases once, either in this script or PlayerHurt.cs
-        // should enemy's damage on the player > player's damage on the enemy?
-
-        phurt.playerIsAttacked(enemyDamage);
-    }
-
     void Update()
     {
         if (EnemyIsAlive) {
@@ -159,22 +124,9 @@ public class EnemyController : MonoBehaviour
                 anim.SetBool("EnemyIsMoving", false);
 
             }
+           
 
-            if (EnemyShouldJump() && !EnemyIsAttacking && !EnemyIsBlocking) // allowed to jump while moving
-            {
-                Debug.Log("is jumping");
-                //rb.velocity = Vector2.up * jumpForce;
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            }
-            
-            if (EnemyShouldAttack() && !EnemyIsAttacking
-                &&!EnemyIsJumping && !EnemyIsMoving && !EnemyIsBlocking)
-            {
-                Debug.Log("should attack");
-                StartCoroutine(AttackRoutine());
-            }
-
-            if (EnemyShouldBlock() && !EnemyIsJumping && !EnemyIsAttacking) // allowed to block while moving
+            if (EnemyShouldBlock() && !EnemyIsJumping && !ea.EnemyIsAttacking) // allowed to block while moving
             {
                 Debug.Log("is blocking");
                 EnemyIsBlocking = true;
@@ -190,11 +142,11 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Ground"))
-        { // if the obj that player is colliding with has the tag 'ground'
-            EnemyIsJumping = false;
-            anim.SetBool("EnemyIsJumping", false);
-        }
+        //if (other.gameObject.CompareTag("Ground"))
+        //{ // if the obj that player is colliding with has the tag 'ground'
+        //    EnemyIsJumping = false;
+        //    anim.SetBool("EnemyIsJumping", false);
+        //}
         if (other.gameObject.CompareTag("Player")) {
             StartCoroutine(FlashRoutine());
             //default damage is 5, maybe change it for normal attack and power attack?
@@ -202,14 +154,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            EnemyIsJumping = true;
-            anim.SetBool("EnemyIsJumping", true);
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D other)
+    //{
+    //    if (other.gameObject.CompareTag("Ground"))
+    //    {
+    //        EnemyIsJumping = true;
+    //        anim.SetBool("EnemyIsJumping", true);
+    //    }
+    //}
 
     private IEnumerator FlashRoutine() {
         sr.color = Color.black;
