@@ -81,7 +81,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void powerAttackAddVel()
     {
-        rb.velocity = new Vector2(rb.velocity.x, 5f);
+        rb.velocity = new Vector2(rb.velocity.x, 8f);
     }
 
     public bool getIsAttacking()
