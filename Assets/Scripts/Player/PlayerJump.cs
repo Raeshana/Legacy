@@ -13,8 +13,11 @@ public class PlayerJump : MonoBehaviour
 
     private PlayerAttack attack;
     private PlayerBlock block;
+    private PlayerMovement move;
 
     private static bool isJumping;
+
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,8 @@ public class PlayerJump : MonoBehaviour
         groundCollider = ground.GetComponent<Collider2D>();
         attack = GetComponent<PlayerAttack> ();
         block = GetComponent<PlayerBlock> ();
+        move = GetComponent<PlayerMovement> ();
+        anim = GetComponent<Animator> ();
 
         isJumping = false;
     }
@@ -30,15 +35,29 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Jump") && rb.IsTouching(groundCollider) && !attack.getIsAttacking() && !block.getIsBlocking())
+        if (Input.GetButtonDown("Jump") && rb.IsTouching(groundCollider) && !attack.getIsAttacking() && !block.getIsBlocking() && !move.getIsMoving())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isJumping = true;
+            StartCoroutine(JumpRoutine());
         }
-        else if (rb.IsTouching(groundCollider))
+
+        if (!rb.IsTouching(groundCollider))
+        {
+            isJumping = true;
+            anim.SetBool("isFalling", true);
+        }
+        else
         {
             isJumping = false;
+            anim.SetBool("isFalling", false);
         }
+    }
+
+    IEnumerator JumpRoutine()
+    {
+        anim.SetTrigger("canJump");
+        yield return new WaitForSeconds(0.1f);
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 
     public bool getIsJumping()

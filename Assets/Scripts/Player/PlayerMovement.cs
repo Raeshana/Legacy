@@ -12,10 +12,13 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerAttack attack;
     private PlayerBlock block;
+    private PlayerJump jump;
 
     private static bool isMoving;
 
     [SerializeField] ParticleSystem dust;
+
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -24,17 +27,15 @@ public class PlayerMovement : MonoBehaviour
         sr = GetComponent<SpriteRenderer> ();
         attack = GetComponent<PlayerAttack> ();
         block = GetComponent<PlayerBlock> ();
+        jump = GetComponent<PlayerJump> ();
+        anim = GetComponent<Animator> ();
 
         isMoving = false;
+        anim.SetBool("isWalking", false);
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
-    }
-
-    void FixedUpdate()
     {
         moveDirection = Input.GetAxis("Horizontal");
         
@@ -51,10 +52,18 @@ public class PlayerMovement : MonoBehaviour
             }
             dust.Play();
             isMoving = true;
+            if (!jump.getIsJumping())
+            {
+                anim.SetBool("isWalking", true);
+            }
+            else{
+                anim.SetBool("isWalking", false);
+            }
         }
         else
         {
             isMoving = false;
+            anim.SetBool("isWalking", false);
         }
     }
 

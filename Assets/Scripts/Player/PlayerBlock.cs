@@ -10,12 +10,15 @@ public class PlayerBlock : MonoBehaviour
 
     private static bool isBlocking;
 
+    private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
         jump = GetComponent<PlayerJump> ();
         move = GetComponent<PlayerMovement> ();
         attack = GetComponent<PlayerAttack> ();
+        anim = GetComponent<Animator> ();
 
         isBlocking = false;
     }
@@ -27,10 +30,11 @@ public class PlayerBlock : MonoBehaviour
         {
             Debug.Log("Block");
             isBlocking = true;
+            anim.SetTrigger("canBlock");
         }
         else
         {
-            isBlocking = false; // ;ast frame of block animation
+            isBlocking = false;
         }
     }
 
