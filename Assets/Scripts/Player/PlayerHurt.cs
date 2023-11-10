@@ -22,7 +22,7 @@ public class PlayerHurt : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "EnemySword")
+        if (collision.gameObject.tag == "Enemy")
         {
             StartCoroutine(FlashRoutine());
             //default damage is 5, maybe change it for normal attack and power attack?
