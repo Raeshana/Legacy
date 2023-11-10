@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 // possible resource: https://www.youtube.com/watch?v=AD4JIXQDw0s
 // next step:
@@ -10,7 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
-    public string sceneToLoad;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private EnemyHealth hp;
@@ -129,10 +127,6 @@ public class EnemyController : MonoBehaviour
                 StartCoroutine(BlockRoutine());
             }
             
-        }
-        else {
-            PlayerPrefs.SetInt("Win", 1);
-            SceneManager.LoadScene(sceneToLoad);
         }
     }
 

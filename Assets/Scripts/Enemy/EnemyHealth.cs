@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EnemyHealth : MonoBehaviour
 {
     public int health; // will be changed as enemy gets hurt
     public Slider healthBar;
+    public string sceneToLoad;
     private int originalHealth; // to store the original health
 
     public GameObject player;
@@ -49,8 +51,8 @@ public class EnemyHealth : MonoBehaviour
             return; // enemy won't get hurt
         }
 
+        Debug.Log("currHealth: " + health);
         health -= damage;
-        health = Mathf.Clamp(health, 0, originalHealth); // Ensure health doesn't go below 0
         UpdateHealthBar();
 
         //if (health < originalHealth * 0.5) // implement this if have time
@@ -65,6 +67,12 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void UpdateHealthBar() {
-        healthBar.value = (float)health / originalHealth;
+        if (health < 0) {
+            healthBar.value = 0 / originalHealth;
+            PlayerPrefs.SetInt("Win", 1);
+            SceneManager.LoadScene(sceneToLoad);
+        } else {
+            healthBar.value = (float)health / originalHealth;
+        }
     }
 }
