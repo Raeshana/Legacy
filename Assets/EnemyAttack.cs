@@ -14,10 +14,8 @@ public class EnemyAttack : MonoBehaviour
     private PlayerHurt phurt;
 
     public int enemyDamage;
-    public int enemyPowerDamage;
     public bool EnemyIsAttacking = false;
     public int cooling;
-    public int attackCount; 
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +28,6 @@ public class EnemyAttack : MonoBehaviour
         cooling = 0;
 
         enemyDamage = 8; // slightly higher than playerDamage (=5)
-        enemyPowerDamage = 10;
-        attackCount = 5; // a power attack every 5 attacks
 
     }
 
@@ -56,34 +52,14 @@ public class EnemyAttack : MonoBehaviour
 
     IEnumerator AttackRoutine()
     {
-        attackCount = (attackCount - 1) % 5;
-        if (attackCount == 0)
-        {
-            anim.SetTrigger("EnemyCanPower");
-            anim.SetBool("EnemyIsPowering", true);
-        }
-        else
-        {
-            anim.SetTrigger("EnemyCanAttack");
-            anim.SetBool("EnemyIsAttacking", true);
-        }
-        
+        anim.SetTrigger("EnemyCanAttack");
+        anim.SetBool("EnemyIsAttacking", true);
         EnemyIsAttacking = true;
         Attack();
         EnemyIsAttacking = false;
         cooling = 2;
-
-        if (attackCount == 0)
-        {
-            yield return new WaitForSeconds(0.4f);
-            anim.SetBool("EnemyIsPowering", false);
-        }
-        else
-        {
-            yield return new WaitForSeconds(0.2f);
-            anim.SetBool("EnemyIsAttacking", false);
-
-        }
+        yield return new WaitForSeconds(0.2f);
+        anim.SetBool("EnemyIsAttacking", false);
         StartCoroutine(Cooling());
     }
 
@@ -102,14 +78,7 @@ public class EnemyAttack : MonoBehaviour
         // if player is withink enemy's attack scope, and player is not blocking, then player's health goes down
         // make sure that player's health only decreases once, either in this script or PlayerHurt.cs
         // should enemy's damage on the player > player's damage on the enemy?
-        
-        if (attackCount == 0)
-        {
-            phurt.playerIsAttacked(enemyPowerDamage);
-        }
-        else
-        {
-            phurt.playerIsAttacked(enemyDamage);
-        }
+        phurt.playerIsAttacked(enemyDamage);
+
     }
 }
