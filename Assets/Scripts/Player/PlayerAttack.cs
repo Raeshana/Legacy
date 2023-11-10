@@ -39,7 +39,7 @@ public class PlayerAttack : MonoBehaviour
         isAttacking = false;
         isPowerAttacking = false;
         canPowerAttack = true;
-        playerDamage = 5;
+        playerDamage = 2;
     }
 
     // Update is called once per frame

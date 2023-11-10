@@ -75,7 +75,7 @@ public class EnemyController : MonoBehaviour
 
     bool EnemyShouldBlock()
     {
-        int p_block = Random.Range(0, 3); //33% change that the enemy will block
+        int p_block = Random.Range(0, 2); //50% change that the enemy will block
         return horizontalDistanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range
             && pa.getIsAttacking() && (p_block == 1); // and player is attacking
     }

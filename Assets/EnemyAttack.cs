@@ -27,7 +27,7 @@ public class EnemyAttack : MonoBehaviour
         phurt = player.GetComponent<PlayerHurt>();
         cooling = 0;
 
-        enemyDamage = 8; // slightly higher than playerDamage (=5)
+        enemyDamage = 5; //  higher than playerDamage (=5)
 
     }
 
@@ -57,7 +57,7 @@ public class EnemyAttack : MonoBehaviour
         EnemyIsAttacking = true;
         Attack();
         EnemyIsAttacking = false;
-        cooling = 2;
+        cooling = 1;
         yield return new WaitForSeconds(0.2f);
         anim.SetBool("EnemyIsAttacking", false);
         StartCoroutine(Cooling());
@@ -67,7 +67,7 @@ public class EnemyAttack : MonoBehaviour
     {
         while (cooling != 0)
         {
-            yield return new WaitForSeconds(100 * Time.deltaTime);
+            yield return new WaitForSeconds(25 * Time.deltaTime);
             cooling = (cooling - 1) % 1;
         }
     }
