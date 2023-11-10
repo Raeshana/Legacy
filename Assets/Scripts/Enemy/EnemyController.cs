@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour
     public float horizontalDistanceBtw;
 
     public float attackRange;
-    public int enemyDamage;
+    
 
     [SerializeField] ParticleSystem dust;
 
@@ -57,7 +57,6 @@ public class EnemyController : MonoBehaviour
         EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
         EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
         attackRange = EnemyWidth / 2;
-        enemyDamage = 8; // slightly higher than playerDamage (=5)
     }
 
     // Update is called once per frame
@@ -75,7 +74,6 @@ public class EnemyController : MonoBehaviour
         Vector2 target = new Vector2(player.transform.position.x, rb.position.y); //always moving towards the player
         Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPos);
-        dust.Play();
     }
 
     bool EnemyShouldBlock()
