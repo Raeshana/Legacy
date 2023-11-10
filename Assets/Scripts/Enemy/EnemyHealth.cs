@@ -63,14 +63,14 @@ public class EnemyHealth : MonoBehaviour
         if (health <= 0)
         {
             EnemyIsAlive = false;
+            PlayerPrefs.SetInt("Win", 1);
+            SceneManager.LoadScene(sceneToLoad);
         }
     }
 
     void UpdateHealthBar() {
         if (health < 0) {
             healthBar.value = 0 / originalHealth;
-            PlayerPrefs.SetInt("Win", 1);
-            SceneManager.LoadScene(sceneToLoad);
         } else {
             healthBar.value = (float)health / originalHealth;
         }
