@@ -74,7 +74,6 @@ public class PlayerHurt : MonoBehaviour
 
     private IEnumerator FlashRoutine()
     {
-        Debug.Log("p flashroutine");
         sr.color = Color.black;
         yield return new WaitForSeconds(0.2f);
         sr.color = Color.white;
