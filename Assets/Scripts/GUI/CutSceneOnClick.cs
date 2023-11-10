@@ -22,7 +22,6 @@ public class CutsceneManager : MonoBehaviour {
         // Check for mouse click to progress to the next paragraph
         if (paragraphCompleted && Input.GetMouseButtonDown(0)) {
             paragraphCompleted = false; // Reset the flag
-            NextParagraph();
         }
     }
 
