@@ -182,6 +182,6 @@ public class EnemyController : MonoBehaviour
     private IEnumerator FlashRoutine() {
         sr.color = Color.black;
         yield return new WaitForSeconds(0.2f);
-        sr.color = Color.red;
+        sr.color = Color.white;
     }
 }
