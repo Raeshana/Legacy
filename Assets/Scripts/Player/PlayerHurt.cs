@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerHurt : MonoBehaviour
 {
     private SpriteRenderer sr;
+    private PlayerHealth health;
 
     // Start is called before the first frame update
     void Start()
     {
         sr = GetComponent<SpriteRenderer> ();
+        health = GetComponent<PlayerHealth> ();
     }
 
     // Update is called once per frame
@@ -23,6 +25,8 @@ public class PlayerHurt : MonoBehaviour
         if (collision.gameObject.tag == "EnemySword")
         {
             StartCoroutine(FlashRoutine());
+            //default damage is 5, maybe change it for normal attack and power attack?
+            health.TakeDamage(5);
         }
     }
 
