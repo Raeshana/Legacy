@@ -8,12 +8,12 @@ public class EnemyAttack : MonoBehaviour
     public GameObject player;
     public Animator anim;
 
-    private readonly PlayerAttack pa;
+    private PlayerAttack pa;
     private PlayerBlock pb;
     private PlayerJump pj;
     private PlayerHurt phurt;
 
-
+    public int enemyDamage;
     public bool EnemyIsAttacking = false;
     public int cooling;
 
@@ -21,10 +21,13 @@ public class EnemyAttack : MonoBehaviour
     void Start()
     {
         ec = GetComponent<EnemyController>();
+        pa = player.GetComponent<PlayerAttack>();
         pb = player.GetComponent<PlayerBlock>();
         pj = player.GetComponent<PlayerJump>();
         phurt = player.GetComponent<PlayerHurt>();
         cooling = 0;
+
+        enemyDamage = 8; // slightly higher than playerDamage (=5)
 
     }
 
@@ -64,16 +67,17 @@ public class EnemyAttack : MonoBehaviour
         Attack();
         EnemyIsAttacking = false;
         anim.SetBool("EnemyIsAttacking", false);
-        cooling = 3;
+        cooling = 2;
         StartCoroutine(Cooling());
     }
 
     IEnumerator Cooling()
     {
-        Debug.Log("4");
-
-        yield return new WaitForSeconds(1);
-        cooling = (cooling - 1) % 3;
+        while (cooling != 0)
+        {
+            yield return new WaitForSeconds(100 * Time.deltaTime);
+            cooling = (cooling - 1) % 1;
+        }
     }
 
     void Attack()
@@ -85,7 +89,7 @@ public class EnemyAttack : MonoBehaviour
 
         if (EnemyIsAttacking)
         {
-            phurt.playerIsAttacked(ec.enemyDamage);
+            phurt.playerIsAttacked(enemyDamage);
         }
     }
 }
