@@ -34,40 +34,32 @@ public class EnemyAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(EnemyShouldAttack());
+        
+
         if (EnemyShouldAttack() && cooling == 0
             && !ec.EnemyIsJumping && !ec.EnemyIsMoving && !ec.EnemyIsBlocking)
         {
-            Debug.Log("2");
-
-            AttackRoutine();
+            
+            StartCoroutine(AttackRoutine());
         }
     }
 
     bool EnemyShouldAttack()
     {
-        // to do
         // if player is within attack scope, and player is not attacking, and is not blocking/about to end blocking
-        Debug.Log("1");
-        //Debug.Log(pb.getIsBlocking());
-        //Debug.Log(pj.getIsJumping());
-        Debug.Log(pa.getIsAttacking());
-        Debug.Log(ec.horizontalDistanceBtw);
-        Debug.Log(ec.attackRange);
         return !pb.getIsBlocking() && !pj.getIsJumping() && !pa.getIsAttacking() && ec.horizontalDistanceBtw < ec.attackRange;
     }
 
-    void AttackRoutine()
+    IEnumerator AttackRoutine()
     {
-        Debug.Log("3");
-
-        EnemyIsAttacking = true;
         anim.SetTrigger("EnemyCanAttack");
         anim.SetBool("EnemyIsAttacking", true);
+        EnemyIsAttacking = true;
         Attack();
         EnemyIsAttacking = false;
-        anim.SetBool("EnemyIsAttacking", false);
         cooling = 2;
+        yield return new WaitForSeconds(0.2f);
+        anim.SetBool("EnemyIsAttacking", false);
         StartCoroutine(Cooling());
     }
 
@@ -86,10 +78,7 @@ public class EnemyAttack : MonoBehaviour
         // if player is withink enemy's attack scope, and player is not blocking, then player's health goes down
         // make sure that player's health only decreases once, either in this script or PlayerHurt.cs
         // should enemy's damage on the player > player's damage on the enemy?
+        phurt.playerIsAttacked(enemyDamage);
 
-        if (EnemyIsAttacking)
-        {
-            phurt.playerIsAttacked(enemyDamage);
-        }
     }
 }

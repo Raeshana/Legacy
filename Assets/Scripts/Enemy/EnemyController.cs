@@ -35,9 +35,6 @@ public class EnemyController : MonoBehaviour
     public float horizontalDistanceBtw;
 
     public float attackRange;
-    
-
-    [SerializeField] ParticleSystem dust;
 
     // Start is called before the first frame update
     void Start()
