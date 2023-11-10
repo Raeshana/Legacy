@@ -9,7 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public Slider healthBar;
     private int originalHealth; // to store the original health
 
-    GameObject player;
+    public GameObject player;
     private PlayerMovement pm;
     private EnemyController ec;
     private bool EnemyIsBlocking;
@@ -41,8 +41,11 @@ public class EnemyHealth : MonoBehaviour
 
     public void EnemyIsAttacked(int damage)
     {
+        Debug.Log("1");
         if (EnemyIsBlocking || !PlayerIsFacingEnemy()) // if enemy is blocking || player is not facing the enemy while attacking
         {
+            Debug.Log(EnemyIsBlocking);
+            Debug.Log(!PlayerIsFacingEnemy());
             return; // enemy won't get hurt
         }
 
