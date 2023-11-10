@@ -40,6 +40,8 @@ public class PlayerAttack : MonoBehaviour
         isPowerAttacking = false;
         canPowerAttack = true;
         playerDamage = 5;
+        Debug.Log("p dam is ");
+        Debug.Log(playerDamage);
     }
 
     // Update is called once per frame

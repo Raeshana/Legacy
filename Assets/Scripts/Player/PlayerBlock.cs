@@ -28,7 +28,6 @@ public class PlayerBlock : MonoBehaviour
     {
         if (!jump.getIsJumping() && !move.getIsMoving() && !attack.getIsAttacking() && !attack.getIsPowerAttacking() && Input.GetButton("Fire2"))
         {
-            //Debug.Log("Block");
             isBlocking = true;
             anim.SetTrigger("canBlock");
         }

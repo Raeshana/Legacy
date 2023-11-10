@@ -450,6 +450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 2106261360}
   maxHealth: 100
+  currentHealth: 0
 --- !u!95 &382876227
 Animator:
   serializedVersion: 5
@@ -6598,6 +6599,10 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 749996943180497747, guid: c55cc89149c38054cacf67c238040897, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 1522834393}
     - target: {fileID: 749996943180497747, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: winScreen
       value: 

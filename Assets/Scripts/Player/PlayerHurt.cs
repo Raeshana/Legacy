@@ -9,9 +9,10 @@ public class PlayerHurt : MonoBehaviour
     private SpriteRenderer sr;
     private PlayerHealth health;
     private PlayerBlock block;
+    private float moveDirection;
 
-    GameObject enemy;
-    private EnemyHealth enemyHealth;
+    public GameObject enemy;
+    private EnemyController enemyController;
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +20,13 @@ public class PlayerHurt : MonoBehaviour
         sr = GetComponent<SpriteRenderer> ();
         health = GetComponent<PlayerHealth> ();
         block = GetComponent<PlayerBlock> ();
-        enemyHealth = enemy.GetComponent<EnemyHealth>();
+        enemyController = enemy.GetComponent<EnemyController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (health.getHealth() == 0)
         {
             PlayerPrefs.SetInt("Win", 0);
@@ -32,15 +34,24 @@ public class PlayerHurt : MonoBehaviour
         }
     }
 
+    public bool PlayerIsFacingEnemy()
+    {
+        Debug.Log(enemyController);
+        Debug.Log(enemyController.moveDirection >= 0);
+        return (!sr.flipX && enemyController.moveDirection >= 0) // player facing right (doesn't flipped) && enemy is on player's right
+            || (sr.flipX && enemyController.moveDirection <= 0); // player facing left (flipped) && enemy is on player's left
+    }
+
     public void playerIsAttacked(int damage)
     {
-        if (block.getIsBlocking() || !enemyHealth.PlayerIsFacingEnemy()) // if player is blocking || enemy is not facing the player while attacking
+        if (block.getIsBlocking() || !PlayerIsFacingEnemy()) // if player is blocking || enemy is not facing the player while attacking
         {
             return; // player won't get hurt
         }
 
         StartCoroutine(FlashRoutine());
         //default damage is 5, maybe change it for normal attack and power attack?
+        Debug.Log(damage);
         health.TakeDamage(damage);
         if (health.getHealth() == 0)
         {
@@ -65,6 +76,7 @@ public class PlayerHurt : MonoBehaviour
 
     private IEnumerator FlashRoutine()
     {
+        Debug.Log("p flashroutine");
         sr.color = Color.black;
         yield return new WaitForSeconds(0.2f);
         sr.color = Color.white;

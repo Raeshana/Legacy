@@ -35,7 +35,6 @@ public class EnemyHealth : MonoBehaviour
 
     public bool PlayerIsFacingEnemy()
     {
-
         return (!pm.sr.flipX && ec.moveDirection >= 0) // player facing right (doesn't flipped) && enemy is on player's right
             || (pm.sr.flipX && ec.moveDirection <= 0); // player facing left (flipped) && enemy is on player's left
     }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour {
     public Slider healthBar;
     public int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
 
     private void Start() {
         currentHealth = maxHealth;
@@ -14,6 +14,8 @@ public class PlayerHealth : MonoBehaviour {
     }
 
     public void TakeDamage(int damage) {
+        Debug.Log("p takedamge");
+        Debug.Log(damage);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
         UpdateHealthBar();

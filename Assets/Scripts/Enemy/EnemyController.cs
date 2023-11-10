@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
     GameObject player;
     private PlayerMovement pm;
     private PlayerAttack pa;
-    private PlayerHurt ph;
+    private PlayerHurt phurt;
 
     private float jumpForce; // should it be public? should enemy use the same parameters as player?
     private float EnemyMoveSpeed;
@@ -53,12 +53,12 @@ public class EnemyController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         pm = player.GetComponent<PlayerMovement>();
         pa = player.GetComponent<PlayerAttack>();
-        ph = player.GetComponent<PlayerHurt>();
+        phurt = player.GetComponent<PlayerHurt>();
 
         EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
         EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
         attackRange = EnemyWidth / 2;
-        enemyDamage = (int)Mathf.Ceil((float)(pa.playerDamage * 1.5)); // slightly higher than playerDamage
+        enemyDamage = 8; // slightly higher than playerDamage (=5)
     }
 
     // Update is called once per frame
@@ -84,13 +84,23 @@ public class EnemyController : MonoBehaviour
         return horizontalDistanceBtw < attackRange && !pa.getIsAttacking();
     }
 
+    IEnumerator AttackRoutine()
+    {
+        Debug.Log("attacking");
+        EnemyIsAttacking = true;
+        anim.SetBool("EnemyIsAttacking", true);
+        EnemyAttack();
+        yield return new WaitForSeconds(1);
+        EnemyIsAttacking = false;
+    }
+
     bool EnemyShouldBlock()
     {
         return horizontalDistanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range - what's player's attack range?
             && pa.getIsAttacking(); // and player is attacking
     }
 
-    IEnumerator blockRoutine()
+    IEnumerator BlockRoutine()
     {
         Debug.Log("blockRoutine");
         anim.SetBool("EnemyIsBlocking", true);
@@ -120,22 +130,14 @@ public class EnemyController : MonoBehaviour
         dust.Play();
     }
 
-    IEnumerator attackRoutine()
-    {
-        Debug.Log("attack r");
-        anim.SetTrigger("EnemyIsAttacking");
-        yield return new WaitForSeconds(0.2f);
-        EnemyIsAttacking = false;
-        yield return new WaitForSeconds(10f);
-    }
-
     void EnemyAttack()
     {
         // to do
         // if player is withink enemy's attack scope, and player is not blocking, then player's health goes down
         // make sure that player's health only decreases once, either in this script or PlayerHurt.cs
         // should enemy's damage on the player > player's damage on the enemy?
-        ph.playerIsAttacked(enemyDamage);
+
+        phurt.playerIsAttacked(enemyDamage);
     }
 
     void Update()
@@ -165,19 +167,18 @@ public class EnemyController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
             
-            if (EnemyShouldAttack() && !EnemyIsJumping
-                && !EnemyIsMoving && !EnemyIsBlocking)
+            if (EnemyShouldAttack() && !EnemyIsAttacking
+                &&!EnemyIsJumping && !EnemyIsMoving && !EnemyIsBlocking)
             {
-                EnemyIsAttacking = true;
-                EnemyAttack();
-                StartCoroutine(attackRoutine());
+                Debug.Log("should attack");
+                StartCoroutine(AttackRoutine());
             }
 
             if (EnemyShouldBlock() && !EnemyIsJumping && !EnemyIsAttacking) // allowed to block while moving
             {
                 Debug.Log("is blocking");
                 EnemyIsBlocking = true;
-                StartCoroutine(blockRoutine());
+                StartCoroutine(BlockRoutine());
             }
             
         }
