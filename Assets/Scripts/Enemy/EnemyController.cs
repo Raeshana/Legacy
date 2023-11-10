@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // possible resource: https://www.youtube.com/watch?v=AD4JIXQDw0s
 // next step:
@@ -11,9 +12,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public string sceneToLoad;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
-    
+    private EnemyHealth hp;
 
     public bool EnemyIsAlive = true;
     public bool EnemyIsJumping = false;
@@ -31,6 +33,7 @@ public class EnemyController : MonoBehaviour
     public float attackRange;
     private float distanceBtw;
 
+
     [SerializeField] ParticleSystem dust;
 
     GameObject player;
@@ -40,6 +43,7 @@ public class EnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        hp = GetComponent<EnemyHealth>();
         sr.flipX = true; // assuming that the enemy is facing right by default (x>0),
                          // then it should be flipped as the game start to face left (facing the player)
         player = GameObject.FindGameObjectWithTag("Player");
@@ -157,6 +161,9 @@ public class EnemyController : MonoBehaviour
             {
                 EnemyIsBlocking = false;
             }
+        } else {
+            PlayerPrefs.SetInt("Win", 1);
+            SceneManager.LoadScene(sceneToLoad);
         }
     }
 
@@ -165,6 +172,10 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         { // if the obj that player is colliding with has the tag 'ground'
             EnemyIsJumping = false;
+        } else if (other.gameObject.CompareTag("Player")) {
+            StartCoroutine(FlashRoutine());
+            //default damage is 5, maybe change it for normal attack and power attack?
+            hp.EnemyIsAttacked(5);
         }
     }
 
@@ -174,5 +185,11 @@ public class EnemyController : MonoBehaviour
         {
             EnemyIsJumping = true;
         }
+    }
+
+    private IEnumerator FlashRoutine() {
+        sr.color = Color.black;
+        yield return new WaitForSeconds(0.2f);
+        sr.color = Color.red;
     }
 }
