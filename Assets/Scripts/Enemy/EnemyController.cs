@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private EnemyHealth hp;
+    public Animator anim;
 
     public bool EnemyIsAlive = true;
     public bool EnemyIsJumping = false;
@@ -50,7 +51,7 @@ public class EnemyController : MonoBehaviour
 
         EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
         EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
-        attackRange = EnemyWidth * 2;
+        attackRange = EnemyWidth / 2;
 
     }
 
@@ -64,6 +65,11 @@ public class EnemyController : MonoBehaviour
 
     bool EnemyShouldMove()
     {
+        //Debug.Log("should move?");
+        //Debug.Log(distanceBtw);
+        //Debug.Log(attackRange);
+        //Debug.Log(distanceBtw >= attackRange * 0.75);
+        //Debug.Log("--");
         return distanceBtw >= attackRange * 0.75;
     }
 
@@ -82,11 +88,13 @@ public class EnemyController : MonoBehaviour
 
     void EnemyFlip()
     {
-        if (moveDirection < 0f)
+        //Debug.Log("--");
+        //Debug.Log(moveDirection);
+        if (moveDirection > 0f) // md>0, E is on P's right, should flip
         {
             sr.flipX = true; // assuming that the enemy is facing right by default (x>0)
         }
-        else
+        else 
         {
             sr.flipX = false;
         }
@@ -114,17 +122,20 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         if (EnemyIsAlive) {
-            distanceBtw = Vector2.Distance(player.transform.position, rb.position);
+            distanceBtw = Mathf.Abs(player.transform.position.x - rb.position.x);
 
             if (EnemyShouldMove() && !EnemyIsJumping
                 && !EnemyIsBlocking) // enemy should be allowed to move while attacking?
             {
                 EnemyIsMoving = true;
+                anim.SetBool("EnemyIsMoving", true);
                 EnemyMove();
             }
             else
             {
                 EnemyIsMoving = false;
+                anim.SetBool("EnemyIsMoving", false);
+
             }
 
             if (EnemyShouldJump() && !EnemyIsMoving
