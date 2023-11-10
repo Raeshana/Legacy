@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 // possible resource: https://www.youtube.com/watch?v=AD4JIXQDw0s
 // next step:
 // 1. search for how to make a good combat enemy AI / gameplay strategies in street fighter
-// 2. create an invisible gameObj with BoxCollision to detect whether player is in enemy's attack scope
-// 3. create a boss health script
-// 4. separate the scripts to make them organized
+// 2. separate the scripts to make them organized
 
 public class EnemyController : MonoBehaviour
 {
@@ -52,7 +50,7 @@ public class EnemyController : MonoBehaviour
 
         EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
         EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
-        attackRange = EnemyWidth;
+        attackRange = EnemyWidth * 2;
 
     }
 
@@ -66,8 +64,7 @@ public class EnemyController : MonoBehaviour
 
     bool EnemyShouldMove()
     {
-        // to do
-        return distanceBtw > attackRange * 0.5;
+        return distanceBtw >= attackRange * 0.75;
     }
 
     bool EnemyShouldAttack()
@@ -79,9 +76,8 @@ public class EnemyController : MonoBehaviour
 
     bool EnemyShouldBlock()
     {
-        // to do
-        // if enemy is withink player's attack scope, and player is attacking
-        return pa.getIsAttacking();
+        return distanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range - what's player's attack range?
+            && pa.getIsAttacking(); // and player is attacking
     }
 
     void EnemyFlip()
@@ -98,16 +94,12 @@ public class EnemyController : MonoBehaviour
 
     void EnemyMove()
     {
-        //rb.velocity = new Vector2(EnemyMoveSpeed * moveDirection, rb.velocity.y);
 
         moveDirection = rb.position.x - player.transform.position.x; // if enemy is on player's right, md > 0
         EnemyFlip();
         Vector2 target = new Vector2(player.transform.position.x, rb.position.y); //always moving towards the player
         Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPos);
-
-        Debug.Log("should a?");
-
         dust.Play();
     }
 
@@ -116,6 +108,7 @@ public class EnemyController : MonoBehaviour
         // to do
         // if player is withink enemy's attack scope, and player is not blocking, then player's health goes down
         // make sure that player's health only decreases once, either in this script or PlayerHurt.cs
+        // should enemy's damage on the player > player's damage on the enemy?
     }
 
     void Update()

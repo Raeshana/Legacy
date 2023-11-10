@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
     private EnemyController controller;
     private bool EnemyIsBlocking;
     private bool EnemyIsAlive;
-    private bool EnemyIsEnraged;
+    //private bool EnemyIsEnraged;
 
     // Start is called before the first frame update
     void Start()
@@ -41,12 +41,12 @@ public class EnemyHealth : MonoBehaviour
         health = Mathf.Clamp(health, 0, originalHealth); // Ensure health doesn't go below 0
         UpdateHealthBar();
 
-        if (health < originalHealth * 0.5)
-        {
-            EnemyIsEnraged = true;
-        }
+        //if (health < originalHealth * 0.5) // implement this if have time
+        //{
+        //    EnemyIsEnraged = true;
+        //}
 
-        if (health < 0)
+        if (health <= 0)
         {
             EnemyIsAlive = false;
         }
