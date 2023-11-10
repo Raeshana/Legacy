@@ -35,7 +35,7 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && rb.IsTouching(groundCollider) && !attack.getIsAttacking() && !block.getIsBlocking() && !move.getIsMoving())
+        if (Input.GetButtonDown("Jump") && rb.IsTouching(groundCollider) && !attack.getIsAttacking() && !attack.getIsPowerAttacking() && !block.getIsBlocking() && !move.getIsMoving())
         {
             isJumping = true;
             StartCoroutine(JumpRoutine());

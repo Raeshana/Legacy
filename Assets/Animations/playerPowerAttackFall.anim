@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: playerPowerAttack
+  m_Name: playerPowerAttackFall
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 109935474cf76f347b6891bfd7ddbbd6, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 3d08c98a844720a40aa9ee6bde9e1091, type: 3}
-    - time: 0.33333334
-      value: {fileID: 21300000, guid: 49c36a00463717346b13b2b6cb76ca0f, type: 3}
-    - time: 0.5
-      value: {fileID: 21300000, guid: 49c36a00463717346b13b2b6cb76ca0f, type: 3}
+      value: {fileID: 21300000, guid: b52f3de31d544e3479b08494844b0dde, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,16 +44,13 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 109935474cf76f347b6891bfd7ddbbd6, type: 3}
-    - {fileID: 21300000, guid: 3d08c98a844720a40aa9ee6bde9e1091, type: 3}
-    - {fileID: 21300000, guid: 49c36a00463717346b13b2b6cb76ca0f, type: 3}
-    - {fileID: 21300000, guid: 49c36a00463717346b13b2b6cb76ca0f, type: 3}
+    - {fileID: 21300000, guid: b52f3de31d544e3479b08494844b0dde, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.51666665
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -78,11 +69,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.33333334
-    functionName: powerAttackAddVel
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

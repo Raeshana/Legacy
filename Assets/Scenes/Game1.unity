@@ -6082,12 +6082,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8140237125089227432, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: m_Name
-      value: Grandfather
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8140237125089227432, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8415278826924366956, guid: c55cc89149c38054cacf67c238040897, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722204719340440524, guid: c55cc89149c38054cacf67c238040897, type: 3}
+      propertyPath: ground
+      value: 
+      objectReference: {fileID: 310581287}
     m_RemovedComponents:
     - {fileID: 5087778505821582775, guid: c55cc89149c38054cacf67c238040897, type: 3}
     m_RemovedGameObjects: []
@@ -6285,6 +6293,10 @@ PrefabInstance:
     - target: {fileID: 2652004292556783218, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652004292556783218, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2652004292556783218, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_TagString
