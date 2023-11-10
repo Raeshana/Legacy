@@ -50,11 +50,6 @@ public class EnemyHealth : MonoBehaviour
         health = Mathf.Clamp(health, 0, originalHealth); // Ensure health doesn't go below 0
         UpdateHealthBar();
 
-        //if (health < originalHealth * 0.5) // implement this if have time
-        //{
-        //    EnemyIsEnraged = true;
-        //}
-
         if (health <= 0)
         {
             EnemyIsAlive = false;
