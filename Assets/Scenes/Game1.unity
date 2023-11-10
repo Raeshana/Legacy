@@ -6597,7 +6597,7 @@ PrefabInstance:
       objectReference: {fileID: 310581287}
     - target: {fileID: 152346735001907880, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: jumpForce
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 749996943180497747, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: enemy
@@ -6719,6 +6719,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -2.78
       objectReference: {fileID: 0}
+    - target: {fileID: 8722204719340440524, guid: c55cc89149c38054cacf67c238040897, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 1522834393}
     - target: {fileID: 8722204719340440524, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: ground
       value: 
@@ -6946,11 +6950,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4354524184328799493, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_Size.x
-      value: 1.49
+      value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 4354524184328799493, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_Size.y
-      value: 3.74
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 4354524184328799493, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       propertyPath: m_Offset.x

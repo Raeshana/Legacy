@@ -19,7 +19,7 @@ public class PlayerAttack : MonoBehaviour
 
     private Animator anim;
 
-    GameObject enemy;
+    public GameObject enemy;
     private EnemyHealth enemyHealth;
     public int playerDamage;
 

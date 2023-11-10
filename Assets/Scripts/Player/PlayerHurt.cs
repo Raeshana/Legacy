@@ -9,7 +9,6 @@ public class PlayerHurt : MonoBehaviour
     private SpriteRenderer sr;
     private PlayerHealth health;
     private PlayerBlock block;
-    private float moveDirection;
 
     public GameObject enemy;
     private EnemyController enemyController;
@@ -51,7 +50,6 @@ public class PlayerHurt : MonoBehaviour
 
         StartCoroutine(FlashRoutine());
         //default damage is 5, maybe change it for normal attack and power attack?
-        Debug.Log(damage);
         health.TakeDamage(damage);
         if (health.getHealth() == 0)
         {
