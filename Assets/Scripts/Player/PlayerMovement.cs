@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private SpriteRenderer sr;
+    public SpriteRenderer sr; // EnemyHealth.cs needs to access this so I changed it to public -- Cheyut
 
     //[SerializeField] float moveSpeed;
-    public float moveSpeed; // EnemyController.cs need to access this in so I changed the field to public -- Cheyu
+    public float moveSpeed; // EnemyController.cs needs to access this so I changed the field to public -- Cheyu
     private float moveDirection;
 
     private PlayerAttack attack;

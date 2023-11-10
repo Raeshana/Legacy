@@ -8,8 +8,10 @@ public class EnemyHealth : MonoBehaviour
     public int health; // will be changed as enemy gets hurt
     public Slider healthBar;
     private int originalHealth; // to store the original health
-    
-    private EnemyController controller;
+
+    GameObject player;
+    private PlayerMovement pm;
+    private EnemyController ec;
     private bool EnemyIsBlocking;
     private bool EnemyIsAlive;
     //private bool EnemyIsEnraged;
@@ -17,9 +19,10 @@ public class EnemyHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<EnemyController>();
-        EnemyIsAlive = controller.EnemyIsAlive;
-        EnemyIsBlocking = controller.EnemyIsBlocking;
+        ec = GetComponent<EnemyController>();
+        pm = player.GetComponent<PlayerMovement>();
+        EnemyIsAlive = ec.EnemyIsAlive;
+        EnemyIsBlocking = ec.EnemyIsBlocking;
         originalHealth = health;
         UpdateHealthBar();
     }
@@ -30,11 +33,18 @@ public class EnemyHealth : MonoBehaviour
         
     }
 
+    public bool PlayerIsFacingEnemy()
+    {
+
+        return (!pm.sr.flipX && ec.moveDirection >= 0) // player facing right (doesn't flipped) && enemy is on player's right
+            || (pm.sr.flipX && ec.moveDirection <= 0); // player facing left (flipped) && enemy is on player's left
+    }
+
     public void EnemyIsAttacked(int damage)
     {
-        if (EnemyIsBlocking) // if is blocking, won't get hurt
+        if (EnemyIsBlocking || !PlayerIsFacingEnemy()) // if enemy is blocking || player is not facing the enemy while attacking
         {
-            return;
+            return; // enemy won't get hurt
         }
 
         health -= damage;

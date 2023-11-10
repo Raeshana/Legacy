@@ -24,19 +24,21 @@ public class EnemyController : MonoBehaviour
     public bool EnemyIsBlocking = false;
     public bool EnemyIsEnraged = false; // to do
 
-    private float jumpForce; // should it be public? should enemy use the same parameters as player?
+    GameObject player;
     private PlayerMovement pm;
     private PlayerAttack pa;
-    private float EnemyMoveSpeed;
-    private float moveDirection;
-    private float EnemyWidth;
-    public float attackRange;
-    private float distanceBtw;
+    private PlayerHurt ph;
 
+    private float jumpForce; // should it be public? should enemy use the same parameters as player?
+    private float EnemyMoveSpeed;
+    public float moveDirection;
+    private float EnemyWidth;
+    public float horizontalDistanceBtw;
+
+    public float attackRange;
+    public int enemyDamage;
 
     [SerializeField] ParticleSystem dust;
-
-    GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -47,14 +49,16 @@ public class EnemyController : MonoBehaviour
 
         sr.flipX = true; // assuming that the enemy is facing right by default (x>0),
                          // then it should be flipped as the game start to face left (facing the player)
+
         player = GameObject.FindGameObjectWithTag("Player");
         pm = player.GetComponent<PlayerMovement>();
         pa = player.GetComponent<PlayerAttack>();
+        ph = player.GetComponent<PlayerHurt>();
 
         EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
         EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
         attackRange = EnemyWidth / 2;
-
+        enemyDamage = (int)Mathf.Ceil((float)(pa.playerDamage * 1.5)); // slightly higher than playerDamage
     }
 
     // Update is called once per frame
@@ -70,31 +74,33 @@ public class EnemyController : MonoBehaviour
 
     bool EnemyShouldMove()
     {
-        //Debug.Log("should move?");
-        //Debug.Log(distanceBtw);
-        //Debug.Log(attackRange);
-        //Debug.Log(distanceBtw >= attackRange * 0.75);
-        //Debug.Log("--");
-        return distanceBtw >= attackRange * 0.75;
+        return horizontalDistanceBtw >= attackRange * 0.75;
     }
 
     bool EnemyShouldAttack()
     {
         // to do
         // if player is within attack scope, and player is not attacking, and is not blocking/about to end blocking
-        return distanceBtw < attackRange;
+        return horizontalDistanceBtw < attackRange && !pa.getIsAttacking();
     }
 
     bool EnemyShouldBlock()
     {
-        return distanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range - what's player's attack range?
+        return horizontalDistanceBtw <= attackRange * 0.75 // if enemy is withink player's attack range - what's player's attack range?
             && pa.getIsAttacking(); // and player is attacking
+    }
+
+    IEnumerator blockRoutine()
+    {
+        Debug.Log("blockRoutine");
+        anim.SetBool("EnemyIsBlocking", true);
+        yield return new WaitForSeconds(0.2f);
+        EnemyIsBlocking = false;
+        anim.SetBool("EnemyIsBlocking", false);
     }
 
     void EnemyFlip()
     {
-        //Debug.Log("--");
-        //Debug.Log(moveDirection);
         if (moveDirection > 0f) // md>0, E is on P's right, should flip
         {
             sr.flipX = true; // assuming that the enemy is facing right by default (x>0)
@@ -107,13 +113,20 @@ public class EnemyController : MonoBehaviour
 
     void EnemyMove()
     {
-
-        moveDirection = rb.position.x - player.transform.position.x; // if enemy is on player's right, md > 0
         EnemyFlip();
         Vector2 target = new Vector2(player.transform.position.x, rb.position.y); //always moving towards the player
         Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPos);
         dust.Play();
+    }
+
+    IEnumerator attackRoutine()
+    {
+        Debug.Log("attack r");
+        anim.SetTrigger("EnemyIsAttacking");
+        yield return new WaitForSeconds(0.2f);
+        EnemyIsAttacking = false;
+        yield return new WaitForSeconds(10f);
     }
 
     void EnemyAttack()
@@ -122,12 +135,14 @@ public class EnemyController : MonoBehaviour
         // if player is withink enemy's attack scope, and player is not blocking, then player's health goes down
         // make sure that player's health only decreases once, either in this script or PlayerHurt.cs
         // should enemy's damage on the player > player's damage on the enemy?
+        ph.playerIsAttacked(enemyDamage);
     }
 
     void Update()
     {
         if (EnemyIsAlive) {
-            distanceBtw = Mathf.Abs(player.transform.position.x - rb.position.x);
+            horizontalDistanceBtw = Mathf.Abs(player.transform.position.x - rb.position.x);
+            moveDirection = rb.position.x - player.transform.position.x; // if enemy is on player's right, md > 0
 
             if (EnemyShouldMove() && !EnemyIsJumping
                 && !EnemyIsBlocking) // enemy should be allowed to move while attacking?
@@ -153,24 +168,20 @@ public class EnemyController : MonoBehaviour
             if (EnemyShouldAttack() && !EnemyIsJumping
                 && !EnemyIsMoving && !EnemyIsBlocking)
             {
-                EnemyIsBlocking = true;
+                EnemyIsAttacking = true;
                 EnemyAttack();
-            }
-            else
-            {
-                EnemyIsBlocking = false;
+                StartCoroutine(attackRoutine());
             }
 
-            if (EnemyShouldBlock() && !EnemyIsJumping
-                && !EnemyIsMoving && !EnemyIsAttacking)
+            if (EnemyShouldBlock() && !EnemyIsJumping && !EnemyIsAttacking) // allowed to block while moving
             {
+                Debug.Log("is blocking");
                 EnemyIsBlocking = true;
+                StartCoroutine(blockRoutine());
             }
-            else
-            {
-                EnemyIsBlocking = false;
-            }
-        } else {
+            
+        }
+        else {
             PlayerPrefs.SetInt("Win", 1);
             SceneManager.LoadScene(sceneToLoad);
         }

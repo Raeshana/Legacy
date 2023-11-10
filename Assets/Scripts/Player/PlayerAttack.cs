@@ -19,6 +19,11 @@ public class PlayerAttack : MonoBehaviour
 
     private Animator anim;
 
+    GameObject enemy;
+    private EnemyHealth enemyHealth;
+    public int playerDamage;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,10 +34,12 @@ public class PlayerAttack : MonoBehaviour
         block = GetComponent<PlayerBlock> ();
         anim = GetComponent<Animator> ();
         groundCollider = ground.GetComponent<Collider2D>();
+        enemyHealth = enemy.GetComponent<EnemyHealth>();
 
         isAttacking = false;
         isPowerAttacking = false;
         canPowerAttack = true;
+        playerDamage = 5;
     }
 
     // Update is called once per frame
@@ -44,7 +51,7 @@ public class PlayerAttack : MonoBehaviour
             //Debug.Log("Attack");
             isAttacking = true;
             anim.SetTrigger("canAttack");
-            // I created a EnemyIsAttacked(int damage) function in EnemyHealth.cs. It probably can be used here. -- Cheyu
+            enemyHealth.EnemyIsAttacked(playerDamage);
         }
         else
         {
