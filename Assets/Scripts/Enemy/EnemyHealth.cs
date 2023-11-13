@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public GameObject player;
     private PlayerMovement pm;
     private EnemyController ec;
+    public SpriteRenderer sr;
     private EnemyMove em;
     private bool EnemyIsBlocking;
 
@@ -56,6 +57,7 @@ public class EnemyHealth : MonoBehaviour
 
         //Debug.Log("Ouch. Said the Grandpa.");
         hurtEnemyInARow += 1;
+        StartCoroutine(FlashRoutine());
         health -= damage;
         UpdateHealthBar();
 
@@ -73,5 +75,12 @@ public class EnemyHealth : MonoBehaviour
         } else {
             healthBar.value = (float)health / originalHealth;
         }
+    }
+
+    private IEnumerator FlashRoutine()
+    {
+        sr.color = Color.black;
+        yield return new WaitForSeconds(0.2f);
+        sr.color = Color.white;
     }
 }

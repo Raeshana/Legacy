@@ -6787,6 +6787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 382876224}
+  sr: {fileID: 1522834414}
   health: 100
   healthBar: {fileID: 1675372223}
   sceneToLoad: GameEnding
@@ -6825,7 +6826,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 382876224}
-  anim: {fileID: 0}
   EnemyIsAttacking: 0
   EnemyIsPowerAttacking: 0
   count: 0
