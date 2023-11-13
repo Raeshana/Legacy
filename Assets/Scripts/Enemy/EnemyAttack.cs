@@ -6,7 +6,6 @@ public class EnemyAttack : MonoBehaviour
 {
     public GameObject player;
     private PlayerHurt phurt;
-    public Animator anim;
 
     public bool EnemyIsAttacking = false;
     public bool EnemyIsPowerAttacking = false;
@@ -25,13 +24,14 @@ public class EnemyAttack : MonoBehaviour
     public void IncrementCount()
     {
         count = (count + 1) % 5;
+        //Debug.Log(count);
     }
 
     void Attack(int damage)
     {
-        // enemyDamage = 3, enemyPowerDamage = 5;
+        // enemyDamage = 4, enemyPowerDamage = 6;
         // to modify this, go to enemy's animation -> EnemyBasicAttack or EnemyPowerAttack -> change the input of the event when calling this function
-        phurt.playerIsAttacked(damage);
+        phurt.PlayerIsAttacked(damage);
     }
 
     // Update is called once per frame

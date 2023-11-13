@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAnimationIdleToAttack : StateMachineBehaviour
+public class EnemyAnimIdle : StateMachineBehaviour
 {
     GameObject player;
     Rigidbody2D rb;
@@ -14,12 +14,6 @@ public class EnemyAnimationIdleToAttack : StateMachineBehaviour
     private PlayerAttack pa;
     private PlayerBlock pb;
     private PlayerJump pj;
-
-    //public int enemyDamage;
-    public bool EnemyIsAttacking = false;
-    public bool EnemyIsPowerAttacking = false;
-    public int cooling;
-    public int count;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -40,7 +34,14 @@ public class EnemyAnimationIdleToAttack : StateMachineBehaviour
     {
         // if player is within attack scope, and player is not attacking, and is not blocking/about to end blocking
         bool inAttackRange = Mathf.Abs(player.transform.position.x - rb.position.x) < ec.attackRange;
-        return !pb.getIsBlocking() && !pj.getIsJumping() && !pa.getIsAttacking() && inAttackRange;
+
+        int p_attack = 1;
+        if (pa.getIsAttacking())
+        {
+            p_attack = UnityEngine.Random.Range(0, 5); //20% change that the enemy will still attack instead of blocking
+
+        }
+        return p_attack == 1 && !pb.getIsBlocking() && !pj.getIsJumping() && inAttackRange;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -54,6 +55,7 @@ public class EnemyAnimationIdleToAttack : StateMachineBehaviour
             }
             else
             {
+                ea.EnemyIsPowerAttacking = true;
                 animator.SetTrigger("EnemyCanPowerAttack");
             }
             ea.IncrementCount();

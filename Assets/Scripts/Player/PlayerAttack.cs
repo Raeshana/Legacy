@@ -21,8 +21,9 @@ public class PlayerAttack : MonoBehaviour
 
     public GameObject enemy;
     private EnemyHealth enemyHealth;
+    private EnemyController ec;
     public int playerDamage;
-
+    private float attackRange;
 
     // Start is called before the first frame update
     void Start()
@@ -35,11 +36,13 @@ public class PlayerAttack : MonoBehaviour
         anim = GetComponent<Animator> ();
         groundCollider = ground.GetComponent<Collider2D>();
         enemyHealth = enemy.GetComponent<EnemyHealth>();
+        ec = enemy.GetComponent<EnemyController>();
 
         isAttacking = false;
         isPowerAttacking = false;
         canPowerAttack = true;
         playerDamage = 2;
+        attackRange = 2.5f; // Harcoded. I set the player's and enemy's attack ranges to be equal -- Cheyu
     }
 
     // Update is called once per frame
@@ -51,7 +54,10 @@ public class PlayerAttack : MonoBehaviour
             //Debug.Log("Attack");
             isAttacking = true;
             anim.SetTrigger("canAttack");
-            enemyHealth.EnemyIsAttacked(playerDamage);
+            if (Mathf.Abs(rb.position.x - enemy.transform.position.x) <= attackRange)
+            {
+                enemyHealth.EnemyIsAttacked(playerDamage);
+            }
         }
         else
         {

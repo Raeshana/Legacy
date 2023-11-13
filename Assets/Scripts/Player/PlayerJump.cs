@@ -19,6 +19,9 @@ public class PlayerJump : MonoBehaviour
 
     private Animator anim;
 
+    public GameObject enemy;
+    private EnemyHealth eh;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +33,8 @@ public class PlayerJump : MonoBehaviour
         anim = GetComponent<Animator> ();
 
         isJumping = false;
+
+        eh = enemy.GetComponent<EnemyHealth>();
     }
 
     // Update is called once per frame
@@ -38,6 +43,7 @@ public class PlayerJump : MonoBehaviour
         if (Input.GetButtonDown("Jump") && rb.IsTouching(groundCollider) && !attack.getIsAttacking())
         {
             isJumping = true;
+            eh.hurtEnemyInARow = 0;
             StartCoroutine(JumpRoutine());
         }
 

@@ -11,7 +11,6 @@ public class EnemyHealth : MonoBehaviour
     private EnemyController ec;
     private EnemyMove em;
     private bool EnemyIsBlocking;
-    private bool EnemyIsAlive;
 
     public int health; // will be changed as enemy gets hurt
     public Slider healthBar;
@@ -19,15 +18,12 @@ public class EnemyHealth : MonoBehaviour
     private int originalHealth; // to store the original health
     public int hurtEnemyInARow; // the player has successfully attacked the enemy # times in a row
     
-    //private bool EnemyIsEnraged;
-
     // Start is called before the first frame update
     void Start()
     {
         pm = player.GetComponent<PlayerMovement>();
         ec = GetComponent<EnemyController>();
         em = GetComponent<EnemyMove>();
-        EnemyIsAlive = ec.EnemyIsAlive;
         EnemyIsBlocking = ec.EnemyIsBlocking;
         originalHealth = health;
         UpdateHealthBar();
@@ -39,35 +35,33 @@ public class EnemyHealth : MonoBehaviour
         
     }
 
-    public bool PlayerIsFacingEnemy()
+    public bool EnemyIsInFrontOfPlayer()
     {
-        return (pm.sr.flipX && !em.sr.flipX)
-            || (!pm.sr.flipX && em.sr.flipX); // one of the characters must be flipped
+        return (pm.sr.flipX && em.charactersOrientation <= 0) // p facing left & e on p left
+            || (!pm.sr.flipX && em.charactersOrientation >= 0); // p facing right & e on p right
     }
 
 
     public void EnemyIsAttacked(int damage)
     {
-        if (EnemyIsBlocking || !PlayerIsFacingEnemy()) // if enemy is blocking || player is not facing the enemy while attacking
+        if (EnemyIsBlocking || !EnemyIsInFrontOfPlayer())
         {
-            //Debug.Log(EnemyIsBlocking);
-            //Debug.Log(!PlayerIsFacingEnemy());
-            hurtEnemyInARow = 0;
+            //Debug.Log("blocked damage");
+            hurtEnemyInARow = 0; // ways to clear the hurtEnemyInARow:
+                                 // 1. e successifully blocks an attack (in EnemyHealth.cs)
+                                 // 2. e has escaped so that his far enough from p (in EnemyController.cs)
+                                 // 3. p performs an interruptive action (block, jump, move) (in the three player scripts)
             return; // enemy won't get hurt
         }
 
+        //Debug.Log("Ouch. Said the Grandpa.");
         hurtEnemyInARow += 1;
         health -= damage;
         UpdateHealthBar();
 
-        //if (health < originalHealth * 0.5) // implement this if have time
-        //{
-        //    EnemyIsEnraged = true;
-        //}
-
         if (health <= 0)
         {
-            EnemyIsAlive = false;
+            ec.EnemyIsAlive = false;
             PlayerPrefs.SetInt("Win", 1);
             SceneManager.LoadScene(sceneToLoad);
         }

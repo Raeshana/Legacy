@@ -12,6 +12,7 @@ public class PlayerHurt : MonoBehaviour
 
     public GameObject enemy;
     private EnemyMove em;
+    private EnemyHealth eh;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class PlayerHurt : MonoBehaviour
         health = GetComponent<PlayerHealth> ();
         block = GetComponent<PlayerBlock> ();
         em = enemy.GetComponent<EnemyMove>();
+        eh = enemy.GetComponent<EnemyHealth>();
     }
 
     // Update is called once per frame
@@ -33,15 +35,15 @@ public class PlayerHurt : MonoBehaviour
         }
     }
 
-    public bool PlayerIsFacingEnemy()
+    public bool PlayerIsInFrontOfEnemy()
     {
-        return (sr.flipX && !em.sr.flipX) 
-            || (!sr.flipX && em.sr.flipX); // one of the characters must be flipped
+        return (em.sr.flipX && em.charactersOrientation >= 0) // e facing left & e on p right
+            || (!em.sr.flipX && em.charactersOrientation <= 0); // e facing right & e on p left
     }
 
-    public void playerIsAttacked(int damage)
+    public void PlayerIsAttacked(int damage)
     {
-        if (block.getIsBlocking() || !PlayerIsFacingEnemy()) // if player is blocking || enemy is not facing the player while attacking
+        if (block.getIsBlocking() || !PlayerIsInFrontOfEnemy())
         {
             return; // player won't get hurt
         }

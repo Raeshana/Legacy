@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public SpriteRenderer sr; // EnemyHealth.cs needs to access this so I changed it to public -- Cheyut
+    public SpriteRenderer sr;
 
     //[SerializeField] float moveSpeed;
-    public float moveSpeed; // EnemyController.cs needs to access this so I changed the field to public -- Cheyu
+    public float moveSpeed; 
     private float moveDirection;
 
     private PlayerAttack attack;
@@ -21,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator anim;
 
+    public GameObject enemy;
+    private EnemyHealth eh;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
         block = GetComponent<PlayerBlock> ();
         jump = GetComponent<PlayerJump> ();
         anim = GetComponent<Animator> ();
+
+
+        eh = enemy.GetComponent<EnemyHealth>();
 
         isMoving = false;
         anim.SetBool("isWalking", false);
@@ -53,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
             }
             dust.Play();
             isMoving = true;
+            eh.hurtEnemyInARow = 0;
             if (!jump.getIsJumping())
             {
                 anim.SetBool("isWalking", true);

@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private SpriteRenderer sr;
-    private EnemyHealth hp;
+    private EnemyHealth eh;
     private EnemyAttack ea;
     public Animator anim;
 
@@ -19,20 +19,19 @@ public class EnemyController : MonoBehaviour
     GameObject player;
     private PlayerAttack pa;
 
-    private float jumpForce; // should it be public? should enemy use the same parameters as player?
+    //private float jumpForce; // should it be public? should enemy use the same parameters as player?
     public float enemyWidth;
     public float horizontalDistanceBtw;
 
     public float attackRange;
-
-    public float hurtEnemyInARow;
+    public float safeRange;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        hp = GetComponent<EnemyHealth>();
+        eh = GetComponent<EnemyHealth>();
         ea = GetComponent<EnemyAttack>();
 
         sr.flipX = true; // assuming that the enemy is facing right by default (x>0),
@@ -41,8 +40,9 @@ public class EnemyController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         pa = player.GetComponent<PlayerAttack>();
 
-        enemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
-        attackRange = enemyWidth / 2; // !! notice that this line is redundant in ec, but I can't find another way to calculate the aR as program starts
+        //enemyWidth = sr.bounds.size.x;
+        attackRange = 2.5f; // !! notice that this line is redundant in ec, but I can't find another way to calculate the aR as program starts
+        safeRange = attackRange * 3 / 2;
     }
 
     // Update is called once per frame
@@ -64,21 +64,20 @@ public class EnemyController : MonoBehaviour
 
     void ClearEnemyHurtInRow()
     {
-        if (horizontalDistanceBtw > attackRange)
+        if (horizontalDistanceBtw > safeRange)
         {
             // player & enemy is outside of each other's attackRange, so...
-            hurtEnemyInARow = 0;
+            eh.hurtEnemyInARow = 0;
         }
     }
 
     void Update()
     {
-        hurtEnemyInARow = hp.hurtEnemyInARow;
         if (EnemyIsAlive) {
             horizontalDistanceBtw = Mathf.Abs(player.transform.position.x - rb.position.x);
             ClearEnemyHurtInRow();
 
-            if (EnemyShouldBlock() && !EnemyIsJumping && !ea.EnemyIsAttacking) // allowed to block while moving
+            if (EnemyShouldBlock() && !EnemyIsJumping && !ea.EnemyIsAttacking && !ea.EnemyIsPowerAttacking)
             {
                 EnemyIsBlocking = true;
                 StartCoroutine(BlockRoutine());
@@ -94,9 +93,10 @@ public class EnemyController : MonoBehaviour
         //    EnemyIsJumping = false;
         //    anim.SetBool("EnemyIsJumping", false);
         //}
-        if (other.gameObject.CompareTag("Player")) {
-            StartCoroutine(FlashRoutine());
-        }
+        //if (other.gameObject.CompareTag("Player"))
+        //{
+        //    StartCoroutine(FlashRoutine());
+        //}
     }
 
     //private void OnCollisionExit2D(Collision2D other)

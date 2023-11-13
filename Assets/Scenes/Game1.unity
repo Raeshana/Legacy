@@ -6825,8 +6825,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 382876224}
+  anim: {fileID: 0}
   EnemyIsAttacking: 0
   EnemyIsPowerAttacking: 0
+  count: 0
+--- !u!212 &1522834414 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9064720030909653234, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
+  m_PrefabInstance: {fileID: 6539922982359229606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1522834415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6839,17 +6846,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f8b417f90c043b089afa9439686eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sr: {fileID: 0}
+  sr: {fileID: 1522834414}
   player: {fileID: 382876224}
   anim: {fileID: 1522834405}
   moveDirection: 0
   charactersOrientation: 0
-  horizontalDistanceBtw: 0
   attackRange: 0
-  hurtEnemyInARow: 0
   enemyWidth: 0
-  EnemyIsJumping: 0
-  EnemyIsBlocking: 0
   EnemyIsMoving: 0
   shouldChase: 1
   shouldEscape: 0
@@ -6986,6 +6989,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3898892227365900193, guid: c55cc89149c38054cacf67c238040897, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 1522834393}
+    - target: {fileID: 152346735001907880, guid: c55cc89149c38054cacf67c238040897, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 1522834393}
     - target: {fileID: 152346735001907880, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: ground
       value: 
@@ -7014,6 +7025,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: f44d2e2ca9825bf40ae713795b11f560, type: 3}
+    - target: {fileID: 4003484511061354097, guid: c55cc89149c38054cacf67c238040897, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 1522834393}
     - target: {fileID: 4228076914764867877, guid: c55cc89149c38054cacf67c238040897, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5

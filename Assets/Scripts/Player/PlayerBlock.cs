@@ -12,6 +12,9 @@ public class PlayerBlock : MonoBehaviour
 
     private Animator anim;
 
+    public GameObject enemy;
+    private EnemyHealth eh;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,8 @@ public class PlayerBlock : MonoBehaviour
         anim = GetComponent<Animator> ();
 
         isBlocking = false;
+
+        eh = enemy.GetComponent<EnemyHealth>();
     }
 
     // Update is called once per frame
@@ -29,6 +34,7 @@ public class PlayerBlock : MonoBehaviour
         if (!jump.getIsJumping() && !move.getIsMoving() && !attack.getIsAttacking() && !attack.getIsPowerAttacking() && Input.GetButton("Fire2"))
         {
             isBlocking = true;
+            eh.hurtEnemyInARow = 0;
             anim.SetTrigger("canBlock");
         }
         else
