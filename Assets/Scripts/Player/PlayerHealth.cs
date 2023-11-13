@@ -14,8 +14,6 @@ public class PlayerHealth : MonoBehaviour {
     }
 
     public void TakeDamage(int damage) {
-        Debug.Log("p takedamge");
-        Debug.Log(damage);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
         UpdateHealthBar();

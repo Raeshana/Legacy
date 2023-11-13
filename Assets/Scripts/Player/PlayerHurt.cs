@@ -11,7 +11,7 @@ public class PlayerHurt : MonoBehaviour
     private PlayerBlock block;
 
     public GameObject enemy;
-    private EnemyController enemyController;
+    private EnemyMove em;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class PlayerHurt : MonoBehaviour
         sr = GetComponent<SpriteRenderer> ();
         health = GetComponent<PlayerHealth> ();
         block = GetComponent<PlayerBlock> ();
-        enemyController = enemy.GetComponent<EnemyController>();
+        em = enemy.GetComponent<EnemyMove>();
     }
 
     // Update is called once per frame
@@ -35,10 +35,8 @@ public class PlayerHurt : MonoBehaviour
 
     public bool PlayerIsFacingEnemy()
     {
-        Debug.Log(enemyController);
-        Debug.Log(enemyController.moveDirection >= 0);
-        return (!sr.flipX && enemyController.moveDirection >= 0) // player facing right (doesn't flipped) && enemy is on player's right
-            || (sr.flipX && enemyController.moveDirection <= 0); // player facing left (flipped) && enemy is on player's left
+        return (sr.flipX && !em.sr.flipX) 
+            || (!sr.flipX && em.sr.flipX); // one of the characters must be flipped
     }
 
     public void playerIsAttacked(int damage)
@@ -57,20 +55,6 @@ public class PlayerHurt : MonoBehaviour
             SceneManager.LoadScene(sceneToLoad);
         }
     }
-
-    //void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Enemy")
-    //    {
-    //        StartCoroutine(FlashRoutine());
-    //        //default damage is 5, maybe change it for normal attack and power attack?
-    //        health.TakeDamage(5);
-    //        if (health.getHealth() == 0) {
-    //            PlayerPrefs.SetInt("Win", 0);
-    //            SceneManager.LoadScene(sceneToLoad);
-    //        }
-    //    }
-    //}
 
     private IEnumerator FlashRoutine()
     {

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // possible resource: https://www.youtube.com/watch?v=AD4JIXQDw0s
-// next step:
-// 1. search for how to make a good combat enemy AI / gameplay strategies in street fighter
-// 2. separate the scripts to make them organized
 
 public class EnemyController : MonoBehaviour
 {
@@ -15,24 +12,20 @@ public class EnemyController : MonoBehaviour
     private EnemyAttack ea;
     public Animator anim;
 
-
     public bool EnemyIsAlive = true;
     public bool EnemyIsJumping = false;
-    public bool EnemyIsMoving = false;
     public bool EnemyIsBlocking = false;
 
-
     GameObject player;
-    private PlayerMovement pm;
     private PlayerAttack pa;
 
     private float jumpForce; // should it be public? should enemy use the same parameters as player?
-    private float EnemyMoveSpeed;
-    public float moveDirection;
-    private float EnemyWidth;
+    public float enemyWidth;
     public float horizontalDistanceBtw;
 
     public float attackRange;
+
+    public float hurtEnemyInARow;
 
     // Start is called before the first frame update
     void Start()
@@ -46,30 +39,13 @@ public class EnemyController : MonoBehaviour
                          // then it should be flipped as the game start to face left (facing the player)
 
         player = GameObject.FindGameObjectWithTag("Player");
-        pm = player.GetComponent<PlayerMovement>();
         pa = player.GetComponent<PlayerAttack>();
 
-        EnemyMoveSpeed = (float)(pm.moveSpeed * 0.5);
-        EnemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
-        attackRange = EnemyWidth / 2;
+        enemyWidth = GetComponent<SpriteRenderer>().bounds.size.x;
+        attackRange = enemyWidth / 2; // !! notice that this line is redundant in ec, but I can't find another way to calculate the aR as program starts
     }
 
     // Update is called once per frame
-
-    bool EnemyShouldMove()
-    {
-        float distance = Vector2.Distance(rb.position, player.transform.position);
-        return (horizontalDistanceBtw >= attackRange * 0.75)
-            && (distance >= attackRange * 0.75);
-    }
-
-    void EnemyMove()
-    {
-        EnemyFlip();
-        Vector2 target = new Vector2(player.transform.position.x, rb.position.y); //always moving towards the player
-        Vector2 newPos = Vector2.MoveTowards(rb.position, target, EnemyMoveSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(newPos);
-    }
 
     bool EnemyShouldBlock()
     {
@@ -80,49 +56,30 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator BlockRoutine()
     {
-        Debug.Log("blockRoutine");
         anim.SetBool("EnemyIsBlocking", true);
         yield return new WaitForSeconds(0.2f);
         EnemyIsBlocking = false;
         anim.SetBool("EnemyIsBlocking", false);
     }
 
-    void EnemyFlip()
+    void ClearEnemyHurtInRow()
     {
-        if (moveDirection > 0f) // md>0, E is on P's right, should flip
+        if (horizontalDistanceBtw > attackRange)
         {
-            sr.flipX = true; // assuming that the enemy is facing right by default (x>0)
-        }
-        else 
-        {
-            sr.flipX = false;
+            // player & enemy is outside of each other's attackRange, so...
+            hurtEnemyInARow = 0;
         }
     }
 
     void Update()
     {
+        hurtEnemyInARow = hp.hurtEnemyInARow;
         if (EnemyIsAlive) {
             horizontalDistanceBtw = Mathf.Abs(player.transform.position.x - rb.position.x);
-            moveDirection = rb.position.x - player.transform.position.x; // if enemy is on player's right, md > 0
-
-            if (EnemyShouldMove() && !EnemyIsJumping
-                && !EnemyIsBlocking) // enemy should be allowed to move while attacking?
-            {
-                EnemyIsMoving = true;
-                anim.SetBool("EnemyIsMoving", true);
-                EnemyMove();
-            }
-            else
-            {
-                EnemyIsMoving = false;
-                anim.SetBool("EnemyIsMoving", false);
-
-            }
-           
+            ClearEnemyHurtInRow();
 
             if (EnemyShouldBlock() && !EnemyIsJumping && !ea.EnemyIsAttacking) // allowed to block while moving
             {
-                Debug.Log("is blocking");
                 EnemyIsBlocking = true;
                 StartCoroutine(BlockRoutine());
             }
@@ -139,8 +96,6 @@ public class EnemyController : MonoBehaviour
         //}
         if (other.gameObject.CompareTag("Player")) {
             StartCoroutine(FlashRoutine());
-            //default damage is 5, maybe change it for normal attack and power attack?
-            hp.EnemyIsAttacked(5);
         }
     }
 

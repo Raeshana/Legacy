@@ -6786,10 +6786,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240c435a5a1804840b8b7a4f8e11fe0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 382876224}
   health: 100
   healthBar: {fileID: 1675372223}
   sceneToLoad: GameEnding
-  player: {fileID: 382876224}
+  hurtEnemyInARow: 0
 --- !u!95 &1522834405
 Animator:
   serializedVersion: 5
@@ -6820,14 +6821,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 1522834393}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506aeb95081fb4be3a88bee05182051b, type: 3}
+  m_Script: {fileID: 11500000, guid: 279c4321bfd18480a867575c4b2f0610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 382876224}
-  anim: {fileID: 1522834405}
-  enemyDamage: 0
   EnemyIsAttacking: 0
-  cooling: 0
+  EnemyIsPowerAttacking: 0
+--- !u!114 &1522834415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522834393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f8b417f90c043b089afa9439686eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sr: {fileID: 0}
+  player: {fileID: 382876224}
+  anim: {fileID: 1522834405}
+  moveDirection: 0
+  charactersOrientation: 0
+  horizontalDistanceBtw: 0
+  attackRange: 0
+  hurtEnemyInARow: 0
+  enemyWidth: 0
+  EnemyIsJumping: 0
+  EnemyIsBlocking: 0
+  EnemyIsMoving: 0
+  shouldChase: 1
+  shouldEscape: 0
 --- !u!1 &1618708390
 GameObject:
   m_ObjectHideFlags: 0
@@ -7406,6 +7431,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2652004292556783218, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1522834410}
+    - targetCorrespondingSourceObject: {fileID: 2652004292556783218, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1522834415}
   m_SourcePrefab: {fileID: 100100000, guid: 678cf924685d842a1b6be864d2892bbb, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
