@@ -14,9 +14,12 @@ public class GameEndSceneLoader : MonoBehaviour
         if (PlayerPrefs.GetInt("Win", 0) == 0) {
             loseScreen.SetActive(true);
             winScreen.SetActive(false);
+            EndingAudioBehavior.Instance.PlayAudio(EndingAudioBehavior.Instance.Loss);
         } else {
             loseScreen.SetActive(false);
             winScreen.SetActive(true);
+            EndingAudioBehavior.Instance.PlayAudio(EndingAudioBehavior.Instance.Victory);
+
         }
     }
 }
