@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class WalkAudioBehavior : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //has all the methods to call audio files
+
+
 
     public static WalkAudioBehavior Instance;
 
@@ -15,7 +17,6 @@ public class WalkAudioBehavior : MonoBehaviour
 
     void Start()
     {
-        //audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -64,6 +65,21 @@ public class WalkAudioBehavior : MonoBehaviour
 
             // Destroy the AudioSource component after playing the audio
             Destroy(Special, BattleAudioBehavior.Instance.Special.length + 0.1f); // Adding a small delay before destroying
+        }
+    }
+    void PlayGPSpecial()
+    {
+        if (audioClips != null)
+        {
+            // Create an AudioSource to play the random audio clip
+            AudioSource GPSpecial = gameObject.AddComponent<AudioSource>();
+            GPSpecial.playOnAwake = false;
+
+            // Play the random audio clip as a one-shot
+            GPSpecial.PlayOneShot(BattleAudioBehavior.Instance.GPSpecial);
+
+            // Destroy the AudioSource component after playing the audio
+            Destroy(GPSpecial, BattleAudioBehavior.Instance.GPSpecial.length + 0.1f); // Adding a small delay before destroying
         }
     }
     void PlayJump()
@@ -132,6 +148,40 @@ public class WalkAudioBehavior : MonoBehaviour
 
             // Destroy the AudioSource component after playing the audio
             Destroy(audioSource, sonClip.length + 0.1f); // Adding a small delay before destroying
+        }
+    }
+    public void PlayDamageSon()
+    {
+        if (audioClips != null && audioClips.Length > 0)
+        {
+            // Choose a random audio clip from the array
+            AudioClip sonDamClip = BattleAudioBehavior.Instance.DamageSon[Random.Range(0, BattleAudioBehavior.Instance.DamageSon.Length - 1)];
+
+            AudioSource SonDam = gameObject.AddComponent<AudioSource>();
+            SonDam.playOnAwake = false;
+
+            // Play the random audio clip as a one-shot
+            SonDam.PlayOneShot(sonDamClip, Random.Range(0.6f, 0.8f));
+
+            // Destroy the AudioSource component after playing the audio
+            Destroy(audioSource, sonDamClip.length + 0.1f); // Adding a small delay before destroying
+        }
+    }
+    public void PlayDamageGP()
+    {
+        if (audioClips != null && audioClips.Length > 0)
+        {
+            // Choose a random audio clip from the array
+            AudioClip gpDamClip = BattleAudioBehavior.Instance.DamageGP[Random.Range(0, BattleAudioBehavior.Instance.DamageGP.Length - 1)];
+
+            AudioSource GPDam = gameObject.AddComponent<AudioSource>();
+            GPDam.playOnAwake = false;
+
+            // Play the random audio clip as a one-shot
+            GPDam.PlayOneShot(gpDamClip, Random.Range(0.6f, 0.8f));
+
+            // Destroy the AudioSource component after playing the audio
+            Destroy(audioSource, gpDamClip.length + 0.1f); // Adding a small delay before destroying
         }
     }
 

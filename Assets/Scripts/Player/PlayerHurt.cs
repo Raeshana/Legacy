@@ -51,6 +51,9 @@ public class PlayerHurt : MonoBehaviour
         StartCoroutine(FlashRoutine());
         //default damage is 5, maybe change it for normal attack and power attack?
         health.TakeDamage(damage);
+        //PlaySound
+
+
         if (health.getHealth() == 0)
         {
             PlayerPrefs.SetInt("Win", 0);
@@ -61,6 +64,8 @@ public class PlayerHurt : MonoBehaviour
     private IEnumerator FlashRoutine()
     {
         sr.color = Color.black;
+        ////PlaySound
+        //WalkAudioBehavior.Instance.PlayDamageSon();
         yield return new WaitForSeconds(0.2f);
         sr.color = Color.white;
     }

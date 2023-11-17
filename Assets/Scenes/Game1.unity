@@ -5922,7 +5922,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d60a70bbf17524abbbd016ffde66ab52, type: 3}
   - {fileID: 8300000, guid: ea75045be23a442c180d50a5cb160888, type: 3}
   - {fileID: 8300000, guid: 6d8aac29db3b84bf982f090783ecccc4, type: 3}
-  Damage: []
   Block:
   - {fileID: 8300000, guid: 3eec15ab2970e438a8639e752e927773, type: 3}
   Footsteps:
@@ -5936,8 +5935,18 @@ MonoBehaviour:
   ShieldOut:
   - {fileID: 8300000, guid: 9ab8121c13f954a5292731b95a1039b0, type: 3}
   - {fileID: 8300000, guid: b5151595bee8e47bca45ef984f432e60, type: 3}
+  DamageSon:
+  - {fileID: 8300000, guid: b918c8cd6a7494992b98d4fe32bc1842, type: 3}
+  - {fileID: 8300000, guid: fa448eeab9d1a43cda64025dbfefda27, type: 3}
+  - {fileID: 8300000, guid: b4a12b31d29fa425db8ccad92b8e52c4, type: 3}
+  DamageGP:
+  - {fileID: 8300000, guid: b74dd4f8c9d0f421481810d582d988e7, type: 3}
+  - {fileID: 8300000, guid: 8c6d84ad279614711bddf371c308c1e5, type: 3}
+  - {fileID: 8300000, guid: 3fceb7ad813614b7a8cf5a67ac929cf7, type: 3}
+  - {fileID: 8300000, guid: 4d31fb54b2ffe4d05a92d8041b6d282f, type: 3}
   ScoreHit: {fileID: 8300000, guid: 3eec15ab2970e438a8639e752e927773, type: 3}
   Special: {fileID: 8300000, guid: ba93f5fe1e63f462484fca655f2c2614, type: 3}
+  GPSpecial: {fileID: 8300000, guid: c0b825985442544edaf8ebd4ad09c388, type: 3}
   Jump: {fileID: 8300000, guid: 9eb036dc309ca475fa0272bddab77e33, type: 3}
   Land: {fileID: 8300000, guid: a431647075bf4435a9cb4537fb02d7e7, type: 3}
 --- !u!82 &657985775

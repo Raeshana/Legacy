@@ -80,6 +80,8 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator FlashRoutine()
     {
         sr.color = Color.black;
+        ////PlaySound
+        //WalkAudioBehavior.Instance.PlayDamageGP();
         yield return new WaitForSeconds(0.2f);
         sr.color = Color.white;
     }

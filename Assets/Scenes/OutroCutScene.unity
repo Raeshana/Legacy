@@ -246,8 +246,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 994618d34e0524f5395952555bcb95b4, type: 3}
-  Sorry: {fileID: 8300000, guid: 2ef10263649f64271a39e5e1c2a1c276, type: 3}
+  Sorry: {fileID: 8300000, guid: e471f1e3586a2407eb52863ab3efef02, type: 3}
   Count: 0
+  audioPlayed: 0
   shareCount: 0
   paragraphCount: 7
 --- !u!82 &551385601

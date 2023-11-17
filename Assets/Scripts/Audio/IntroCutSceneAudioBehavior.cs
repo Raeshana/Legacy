@@ -15,7 +15,7 @@ public class IntroCutSceneAudioBehavior : MonoBehaviour
     void Start()
     {
         // Get the AudioSource component attached to this GameObject
-        Click = GetComponent<AudioSource>();
+        Click = GetComponents<AudioSource>()[1];
 
         // Assign the audio clip to the AudioSource
         Click.clip = audioClip;

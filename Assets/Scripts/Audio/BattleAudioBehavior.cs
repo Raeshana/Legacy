@@ -11,14 +11,20 @@ public class BattleAudioBehavior : MonoBehaviour
 
     public AudioClip[] SonAttack;
     public AudioClip[] GPAttack;
-    public AudioClip[] Damage;
     public AudioClip[] Block;
     public AudioClip[] Footsteps;
     public AudioClip[] ShieldOut;
-  
+    public AudioClip[] DamageSon;
+    public AudioClip[] DamageGP;
+
+
+
+
 
     [SerializeField] public AudioClip ScoreHit;
     [SerializeField] public AudioClip Special;
+    [SerializeField] public AudioClip GPSpecial;
+
     [SerializeField] public AudioClip Jump;
     [SerializeField] public AudioClip Land;
 
