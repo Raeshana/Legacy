@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+  
+   
+
     private Rigidbody2D rb;
     public SpriteRenderer sr;
 
@@ -33,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         block = GetComponent<PlayerBlock> ();
         jump = GetComponent<PlayerJump> ();
         anim = GetComponent<Animator> ();
+
 
 
         eh = enemy.GetComponent<EnemyHealth>();
